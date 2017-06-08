@@ -1,5 +1,7 @@
 # Qu'est ce que c'est que ça ?
 
+[![Build Status](https://travis-ci.org/Grafikart/PeuChePeu-Framework.svg?branch=master)](https://travis-ci.org/Grafikart/PeuChePeu-Framework)
+
 Dans le but de préparer des tutoriels sans frameworks, j'essaie de construire une base qui pourra être utilisée pour 
 de futures vidéos. Le but est de construire une base propre et organisée : 
 
