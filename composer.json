@@ -1,0 +1,25 @@
+{
+    "name": "grafikart/framework",
+    "authors": [
+        {
+            "name": "Grafikart",
+            "email": "contact@grafikart.fr"
+        }
+    ],
+    "scripts": {
+      "lint": "./vendor/bin/php-cs-fixer fix --diff --dry-run -v  --ansi"
+    },
+    "autoload": {
+        "psr-4": {
+            "App\\": "src/",
+            "Core\\": "core/"
+        }
+    },
+    "require": {
+        "slim/slim": "3.8.1",
+        "zeuxisoo/slim-whoops": "^0.6.1",
+        "friendsofphp/php-cs-fixer": "v2.3.2",
+        "twig/twig": "~2.0",
+        "php-di/slim-bridge": "^1.0"
+    }
+}
