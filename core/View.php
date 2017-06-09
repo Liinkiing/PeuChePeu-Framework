@@ -2,13 +2,20 @@
 
 namespace Core;
 
+use Core\Twig\Extensions\ModuleExtension;
+use Core\Twig\Extensions\SlimExtension;
+use Core\Twig\Extensions\TextExtension;
+use Slim\Router;
+use Slim\Views\TwigExtension;
+
+/**
+ * Class View
+ * Permet d'intéragir avec la gestion de template (ici Twig)
+ *
+ * @package Core
+ */
 class View
 {
-
-    /**
-     * @var string
-     */
-    private $basepath;
 
     /**
      * @var \Twig_Loader_Filesystem
@@ -20,20 +27,36 @@ class View
      */
     private $twig;
 
-    public function __construct(string $basepath)
+    public function __construct(TwigExtension $slimExtension, ModuleExtension $moduleExtension)
     {
-        $this->basepath = $basepath;
-        $this->loader = new \Twig_Loader_Filesystem($basepath . '/src/Base/views');
+        $this->loader = new \Twig_Loader_Filesystem();
         $this->twig = new \Twig_Environment($this->loader, [
             'cache' => false, // $basepath . '/tmp/cache'
         ]);
+
+        $this->twig->addExtension($moduleExtension);
+        $this->twig->addExtension($slimExtension);
+        $this->twig->addExtension(new TextExtension());
     }
 
-    public function registerNamespace(string $namespace, string $path)
+    /**
+     * Permet d'enregistrer un namespace pour les vues
+     *
+     * @param string $namespace
+     * @param string $path
+     */
+    public function addPath(string $path, $namespace = \Twig_Loader_Filesystem::MAIN_NAMESPACE)
     {
         $this->loader->addPath($path, $namespace);
     }
 
+    /**
+     * Rend une vue
+     *
+     * @param string $viewName
+     * @param array $data
+     * @return string
+     */
     public function render (string $viewName, array $data): string {
         return $this->twig->render($viewName, $data);
     }

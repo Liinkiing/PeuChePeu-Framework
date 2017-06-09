@@ -2,12 +2,16 @@
 
 namespace App\Blog\Controller;
 
+use App\Blog\Repository\PostRepository;
 use Core\Controller;
+use Core\View;
 
 class BlogController extends Controller
 {
-    public function index()
+    public function index(View $view, PostRepository $postRepository)
     {
-        return $this->render('@blog/index.html.twig', ['posts' => 'Hello']);
+        $posts = $postRepository->getPosts();
+
+        return $view->render('@blog/index.html.twig', compact('posts'));
     }
 }

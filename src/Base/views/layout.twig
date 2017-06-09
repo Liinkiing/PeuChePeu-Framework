@@ -13,15 +13,14 @@
 <body>
 
 <nav class="navbar navbar-fixed-top navbar-dark bg-inverse">
-    <a class="navbar-brand" href="#">Title</a>
+    <a class="navbar-brand" href="#">Mon application</a>
     <ul class="nav navbar-nav">
+        {% if module_enabled('BlogModule') %}
         <li class="nav-item active">
-            <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+            <a class="nav-link" href="{{ path_for('blog.index') }}">Blog <span class="sr-only">(current)</span></a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link" href="#">About</a>
-        </li>
-    </ul>
+        {% endif %}
+s    </ul>
 </nav>
 
 <div class="container">

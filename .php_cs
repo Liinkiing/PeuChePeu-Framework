@@ -9,7 +9,7 @@ return PhpCsFixer\Config::create()
     ->setRules([
         '@Symfony' => true,
         'binary_operator_spaces' => array(
-            'align_equals' => true,
+            'align_equals' => false,
             'align_double_arrow' => true,
         ),
         '@Symfony:risky' => true,
@@ -26,6 +26,7 @@ return PhpCsFixer\Config::create()
         'semicolon_after_instruction' => true,
         'strict_comparison' => true,
         'strict_param' => true,
+        'trailing_comma_in_multiline_array' => false
     ])
     ->setFinder($finder)
     ->setCacheFile(__DIR__.'/.php_cs.cache')
