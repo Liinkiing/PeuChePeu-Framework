@@ -1,23 +1,42 @@
-test:
+.PHONY: help test install lint lint.fix server phinx
+
+ENV ?= dev
+COMPOSER_ARGS =
+ifeq ($(ENV), prod)
+	COMPOSER_ARGS=--prefer-dist --classmap-authoritative --optimize-autoloader --no-dev
+endif
+
+help: ## This help
+	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(TARGETS) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
+
+test: install ## PHPUnit all the code !
 	./vendor/bin/phpunit --stderr
 
-install:
-	composer install --no-dev --optimize-autoloader
+install: vendor ## Install application
 
-lint:
+vendor: composer.lock
+	composer install $(COMPOSER_ARGS)
+
+composer.lock: composer.json
+	composer update $(COMPOSER_ARGS)
+
+lint: install ## Vérifie le code
 	./vendor/bin/php-cs-fixer fix --diff --dry-run -v
 
-lint.fix:
+lint.fix: install ## Vérifie le code et le corrige tout seul
 	./vendor/bin/php-cs-fixer fix --diff -v
 
-migrate:
-	./vendor/bin/phinx migrate
-
-seed:
-	./vendor/bin/phinx seed:run
-
-server:
+server: ## Lance le serveur de dev
 	php -S localhost:8080 -t public -d display_errors=1
 
-phinx.create:
-	./vendor/bin/phinx create
+phinx: install ## Gère les migrations / seeding
+	./vendor/bin/phinx $(filter-out $@,$(MAKECMDGOALS))
+
+migrate: install ## Migre la base de données
+	$(MAKE) phinx migrate $(filter-out $@,$(MAKECMDGOALS))
+
+seed: install ## Lance le seeding de la base de données
+	$(MAKE) phinx seed:run $(filter-out $@,$(MAKECMDGOALS))
+
+%:
+	@:

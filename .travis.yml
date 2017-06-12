@@ -14,9 +14,6 @@ matrix:
 before_install:
   - composer self-update
 
-install:
-  - composer install
-
 script:
   - make lint
   - make test
