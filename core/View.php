@@ -3,6 +3,7 @@
 namespace Core;
 
 use Core\Twig\Extensions\ModuleExtension;
+use Core\Twig\Extensions\PagerfantaExtension;
 use Core\Twig\Extensions\SlimExtension;
 use Core\Twig\Extensions\TextExtension;
 use Slim\Router;
@@ -27,15 +28,17 @@ class View
      */
     private $twig;
 
-    public function __construct(TwigExtension $slimExtension, ModuleExtension $moduleExtension)
+    public function __construct(TwigExtension $slimExtension, ModuleExtension $moduleExtension, PagerfantaExtension
+    $pagerfantaExtension)
     {
         $this->loader = new \Twig_Loader_Filesystem();
         $this->twig = new \Twig_Environment($this->loader, [
             'cache' => false, // $basepath . '/tmp/cache'
         ]);
-
+        // Ajout des extensions
         $this->twig->addExtension($moduleExtension);
         $this->twig->addExtension($slimExtension);
+        $this->twig->addExtension($pagerfantaExtension);
         $this->twig->addExtension(new TextExtension());
     }
 
@@ -58,7 +61,7 @@ class View
      * @return string
      */
     public function render (string $viewName, array $data): string {
-        return $this->twig->render($viewName, $data);
+        return $this->twig->render($viewName . '.twig', $data);
     }
 
 }

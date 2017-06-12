@@ -24,6 +24,7 @@ trop la compréhension
 - [Phinx](https://phinx.org/), pour gérer les migrations et le seeding de la base de données
 - [PHPUnit](https://phpunit.de/), pour les tests unitaires (what else ?)
 - [php-ref](https://github.com/digitalnature/php-ref), pour des debugs plus joli :)
+- [Pagerfanta](https://github.com/whiteoctober/Pagerfanta), pour paginer les résultats
 
 ## Réflexions
 

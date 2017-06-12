@@ -19,5 +19,6 @@ class BlogModule
     public function routes($app)
     {
         $app->get('/blog', [BlogController::class, 'index'])->setName('blog.index');
+        $app->get('/blog/{slug}', [BlogController::class, 'show'])->setName('blog.show');
     }
 }
