@@ -3,12 +3,12 @@
 namespace App\Base;
 
 use Core\SlimApp;
-use Core\View;
+use Core\View\ViewInterface;
 
 class BaseModule
 {
     public function __construct(SlimApp $app)
     {
-        $app->getContainer()->get(View::class)->addPath(__DIR__.'/views');
+        $app->getContainer()->get(ViewInterface::class)->addPath(__DIR__ . '/views');
     }
 }

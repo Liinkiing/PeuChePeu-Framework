@@ -1,0 +1,9 @@
+{% extends('layout.twig') %}
+
+{% block title %}{{ post.name }}{% endblock %}
+{% block content %}
+    <h1>{{ post.name }}</h1>
+
+    {{ post.content | nl2br }}
+
+{% endblock %}

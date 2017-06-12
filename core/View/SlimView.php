@@ -1,12 +1,11 @@
 <?php
 
-namespace Core;
+namespace Core\View;
 
 use Core\Twig\Extensions\ModuleExtension;
 use Core\Twig\Extensions\PagerfantaExtension;
 use Core\Twig\Extensions\SlimExtension;
 use Core\Twig\Extensions\TextExtension;
-use Slim\Router;
 use Slim\Views\TwigExtension;
 
 /**
@@ -15,7 +14,7 @@ use Slim\Views\TwigExtension;
  *
  * @package Core
  */
-class View
+class SlimView implements ViewInterface
 {
 
     /**
@@ -60,7 +59,7 @@ class View
      * @param array $data
      * @return string
      */
-    public function render (string $viewName, array $data): string {
+    public function render (string $viewName, array $data = []): string {
         return $this->twig->render($viewName . '.twig', $data);
     }
 

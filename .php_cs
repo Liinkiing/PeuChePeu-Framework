@@ -26,6 +26,7 @@ return PhpCsFixer\Config::create()
         'semicolon_after_instruction' => true,
         'strict_comparison' => true,
         'strict_param' => true,
+        'concat_space' => ['spacing' => 'one'],
         'trailing_comma_in_multiline_array' => false
     ])
     ->setFinder($finder)

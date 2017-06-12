@@ -6,9 +6,6 @@
             "email": "contact@grafikart.fr"
         }
     ],
-    "scripts": {
-      "lint": "./vendor/bin/php-cs-fixer fix --diff --dry-run -v  --ansi"
-    },
     "autoload": {
         "psr-4": {
             "App\\": "src/",
