@@ -17,3 +17,4 @@ before_install:
 script:
   - make lint
   - make test
+  - ./vendor/bin/coveralls

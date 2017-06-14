@@ -1,4 +1,4 @@
-.PHONY: help test install lint lint.fix server phinx
+.PHONY: help test install lint lint.fix server phinx coveralls
 
 ENV ?= dev
 COMPOSER_ARGS =
@@ -9,16 +9,10 @@ endif
 help: ## This help
 	@grep -E '^[a-zA-Z_-]+:.*?## .*$$' $(TARGETS) | sort | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-30s\033[0m %s\n", $$1, $$2}'
 
-test: install ## PHPUnit all the code !
+test: ## PHPUnit all the code !
 	./vendor/bin/phpunit --stderr
 
 install: vendor ## Install application
-
-vendor: composer.lock
-	composer install $(COMPOSER_ARGS)
-
-composer.lock: composer.json
-	composer update $(COMPOSER_ARGS)
 
 lint: install ## Vérifie le code
 	./vendor/bin/php-cs-fixer fix --diff --dry-run -v
@@ -38,5 +32,13 @@ migrate: install ## Migre la base de données
 seed: install ## Lance le seeding de la base de données
 	$(MAKE) phinx seed:run $(filter-out $@,$(MAKECMDGOALS))
 
-%:
-	@:
+# Fichiers
+vendor: composer.lock
+	composer install $(COMPOSER_ARGS)
+
+composer.lock: composer.json
+	composer update $(COMPOSER_ARGS)
+
+build/logs/coveralls-upload.json: build/logs/clover.xml
+	./vendor/bin/coveralls
+
