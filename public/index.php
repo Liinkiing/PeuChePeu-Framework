@@ -11,7 +11,7 @@ $config = [
 ];
 
 // On démarre slim
-$app = new \Core\SlimApp();
+$app = new \Core\App();
 
 // Middlewares
 $app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware());

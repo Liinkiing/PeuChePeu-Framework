@@ -4,7 +4,7 @@
 namespace Core\Session;
 
 
-class Session implements SessionInterface
+class Session implements SessionInterface, \ArrayAccess
 {
 
     private $started = false;
@@ -55,4 +55,23 @@ class Session implements SessionInterface
         }
     }
 
+    public function offsetExists($offset)
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetGet($offset)
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetSet($offset, $value)
+    {
+        return $this->set($offset, $value);
+    }
+
+    public function offsetUnset($offset)
+    {
+        unset($_SESSION[$offset]);
+    }
 }

@@ -2,17 +2,13 @@
 
 namespace Core;
 
-class SlimApp extends \DI\Bridge\Slim\App
+class App extends \DI\Bridge\Slim\App
 {
-
-    /**
-     * @var ModulesContainer
-     */
-    private $modules;
 
     protected function configureContainer(\DI\ContainerBuilder $builder)
     {
         $builder->addDefinitions(__DIR__ . '/config.php');
+        $builder->useAnnotations(true);
     }
 
     /**

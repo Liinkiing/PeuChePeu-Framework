@@ -1,8 +1,12 @@
 <?php
 namespace Core;
 
+use App\Auth\AuthService;
+use Core\View\ViewInterface;
+use DI\Annotation\Inject;
 use DI\Container;
 use Psr\Http\Message\ResponseInterface;
+use Slim\Flash\Messages;
 use Slim\Http\Response;
 
 /**
@@ -14,7 +18,13 @@ class Controller {
     /**
      * @var Container
      */
-    private $container;
+    protected $container;
+
+    /**
+     * @Inject
+     * @var Messages
+     */
+    protected $flash;
 
     /**
      * Controller constructor.
@@ -30,12 +40,10 @@ class Controller {
      *
      * @param string $filename Nom de la vue à rendre
      * @param array $data Données à envoyer à la vue
-     * @return ResponseInterface
+     * @return string
      */
-    public function render (string $filename, array $data): ResponseInterface {
-        $response = new Response();
-        $response->write($this->container->get(View::class)->render($filename, $data));
-        return $response;
+    public function render (string $filename, array $data = []): string {
+        return $this->container->get(ViewInterface::class)->render($filename, $data);
     }
 
 }

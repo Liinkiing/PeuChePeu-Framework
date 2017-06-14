@@ -16,11 +16,11 @@ class ModulesContainer
     private $modules = [];
 
     /**
-     * @var SlimApp
+     * @var App
      */
     private $app;
 
-    public function __construct(SlimApp $app)
+    public function __construct(App $app)
     {
         $this->app = $app;
     }

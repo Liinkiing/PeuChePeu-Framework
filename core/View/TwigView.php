@@ -4,8 +4,9 @@ namespace Core\View;
 
 use Core\Twig\Extensions\ModuleExtension;
 use Core\Twig\Extensions\PagerfantaExtension;
-use Core\Twig\Extensions\SlimExtension;
 use Core\Twig\Extensions\TextExtension;
+use Knlv\Slim\Views\TwigMessages;
+use Slim\Flash\Messages;
 use Slim\Views\TwigExtension;
 
 /**
@@ -14,7 +15,7 @@ use Slim\Views\TwigExtension;
  *
  * @package Core
  */
-class SlimView implements ViewInterface
+class TwigView implements ViewInterface
 {
 
     /**
@@ -27,8 +28,12 @@ class SlimView implements ViewInterface
      */
     private $twig;
 
-    public function __construct(TwigExtension $slimExtension, ModuleExtension $moduleExtension, PagerfantaExtension
-    $pagerfantaExtension)
+    public function __construct(
+        TwigExtension $slimExtension,
+        ModuleExtension $moduleExtension,
+        PagerfantaExtension $pagerfantaExtension,
+        Messages $flashMessages
+    )
     {
         $this->loader = new \Twig_Loader_Filesystem();
         $this->twig = new \Twig_Environment($this->loader, [
@@ -38,6 +43,7 @@ class SlimView implements ViewInterface
         $this->twig->addExtension($moduleExtension);
         $this->twig->addExtension($slimExtension);
         $this->twig->addExtension($pagerfantaExtension);
+        $this->twig->addExtension(new TwigMessages($flashMessages));
         $this->twig->addExtension(new TextExtension());
     }
 

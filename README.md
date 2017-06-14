@@ -1,6 +1,7 @@
 # Qu'est ce que c'est que ça ?
 
 [![Build Status](https://travis-ci.org/Grafikart/PeuChePeu-Framework.svg?branch=master)](https://travis-ci.org/Grafikart/PeuChePeu-Framework)
+[![SensioLabsInsight](https://insight.sensiolabs.com/projects/18505987-b86b-4b3e-bf8a-07bff9c5ef96/mini.png)](https://insight.sensiolabs.com/projects/18505987-b86b-4b3e-bf8a-07bff9c5ef96)
 
 Dans le but de préparer des tutoriels "sans frameworks", j'essaie de construire une base qui pourra être utilisée pour 
 de futures vidéos. Le but est de construire une base propre et organisée qui peut facilement être étendue avec des 

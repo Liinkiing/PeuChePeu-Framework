@@ -27,7 +27,7 @@ class ModulesContainerTest extends \PHPUnit\Framework\TestCase {
      * @before
      */
     public function setupModuleContainer () {
-        $this->container = new \Core\ModulesContainer(new \Core\SlimApp());
+        $this->container = new \Core\ModulesContainer(new \Core\App());
     }
 
     public function testHasWithoutModule () {

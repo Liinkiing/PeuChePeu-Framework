@@ -14,6 +14,7 @@
     <testsuites>
         <testsuite name="Project Test Suite">
             <directory>tests</directory>
+            <directory>src/Auth/tests</directory>
         </testsuite>
     </testsuites>
 
@@ -22,4 +23,5 @@
             <directory>src</directory>
         </whitelist>
     </filter>
+
 </phpunit>
