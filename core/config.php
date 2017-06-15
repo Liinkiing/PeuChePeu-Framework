@@ -36,5 +36,5 @@ return [
                                                 \DI\get('db_username'),
                                                 \DI\get('db_password'),
                                                 \DI\get('db_host')
-                                            )->lazy(),
+                                            ),
 ];
