@@ -23,14 +23,11 @@ lint.fix: install ## Vérifie le code et le corrige tout seul
 server: ## Lance le serveur de dev
 	php -S localhost:8080 -t public -d display_errors=1
 
-phinx: install ## Gère les migrations / seeding
-	./vendor/bin/phinx $(filter-out $@,$(MAKECMDGOALS))
-
 migrate: install ## Migre la base de données
-	$(MAKE) phinx migrate $(filter-out $@,$(MAKECMDGOALS))
+	./vendor/bin/phinx migrate
 
 seed: install ## Lance le seeding de la base de données
-	$(MAKE) phinx seed:run $(filter-out $@,$(MAKECMDGOALS))
+	./vendor/bin/phinx seed:run
 
 # Fichiers
 vendor: composer.lock
@@ -44,6 +41,3 @@ build/logs/coveralls-upload.json: build/logs/clover.xml
 
 config.php: config.php.dist ## Génère le fichier de configuration
 	cp config.php.dist config.php
-
-%:
-	@:
