@@ -30,11 +30,12 @@ return [
     'db_name'                             => \DI\env('db_name'),
     'db_username'                         => \DI\env('db_username', 'root'),
     'db_password'                         => \DI\env('db_password', 'root'),
-    'db_host'                             => \DI\env('db_host', 'localhost'),
+    'db_host'                             => \DI\env('db_host', '127.0.0.1'),
     \Core\Database\Database::class        => \DI\object()->constructor(
                                                 \DI\get('db_name'),
                                                 \DI\get('db_username'),
                                                 \DI\get('db_password'),
                                                 \DI\get('db_host')
                                             ),
+    'db'                                  => \DI\get(\Core\Database\Database::class),
 ];

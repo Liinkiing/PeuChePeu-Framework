@@ -11,7 +11,7 @@ $config = [
 ];
 
 // On démarre slim
-$app = new \Core\App(dirname(__DIR__) . '/config.php.dist');
+$app = new \Core\App(dirname(__DIR__) . '/config.php');
 
 // Middlewares
 $app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware());
