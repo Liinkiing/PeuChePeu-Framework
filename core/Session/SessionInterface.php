@@ -5,15 +5,14 @@ namespace Core\Session;
 interface SessionInterface
 {
     /**
-     * Permet de récupérer une information depuis la session
+     * Permet de récupérer une information depuis la session.
      *
      * @param string $key
-     * @return null
      */
     public function get(string $key);
 
     /**
-     * Permet de stocker une information en session
+     * Permet de stocker une information en session.
      *
      * @param string $key
      * @param $value

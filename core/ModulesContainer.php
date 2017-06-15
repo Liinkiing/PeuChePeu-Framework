@@ -3,13 +3,10 @@
 namespace Core;
 
 /**
- * Permet de sauvegarder les modules chargés dans l'application
- *
- * @package Core
+ * Permet de sauvegarder les modules chargés dans l'application.
  */
 class ModulesContainer
 {
-
     /**
      * @var array
      */
@@ -26,7 +23,7 @@ class ModulesContainer
     }
 
     /**
-     * Permet de rajouter un module dans l'application
+     * Permet de rajouter un module dans l'application.
      *
      * @param string $module
      */
@@ -38,9 +35,10 @@ class ModulesContainer
     }
 
     /**
-     * Permet de savoir si un module est actuellement enregistré dans l'application
+     * Permet de savoir si un module est actuellement enregistré dans l'application.
      *
      * @param string $module
+     *
      * @return bool
      */
     public function has(string $module): bool
@@ -49,7 +47,7 @@ class ModulesContainer
     }
 
     /**
-     * Liste les différents dossiers de migrations des modules chargés dans l'application
+     * Liste les différents dossiers de migrations des modules chargés dans l'application.
      */
     public function getMigrations(): array
     {
@@ -59,11 +57,12 @@ class ModulesContainer
                 $migrations[] = $module->migrations;
             }
         }
+
         return $migrations;
     }
 
     /**
-     * Liste les différents dossiers de seeders des modules chargés dans l'application
+     * Liste les différents dossiers de seeders des modules chargés dans l'application.
      */
     public function getSeeders(): array
     {
@@ -73,7 +72,7 @@ class ModulesContainer
                 $seeds[] = $module->seeds;
             }
         }
+
         return $seeds;
     }
-
 }

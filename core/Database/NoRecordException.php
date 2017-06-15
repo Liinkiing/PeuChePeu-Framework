@@ -1,6 +1,7 @@
 <?php
+
 namespace Core\Database;
 
-class NoRecordException extends \Exception {
-
+class NoRecordException extends \Exception
+{
 }

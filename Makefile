@@ -12,7 +12,7 @@ help: ## This help
 test: ## PHPUnit all the code !
 	./vendor/bin/phpunit --stderr
 
-install: vendor ## Install application
+install: config.php vendor ## Install application
 
 lint: install ## Vérifie le code
 	./vendor/bin/php-cs-fixer fix --diff --dry-run -v
@@ -42,3 +42,8 @@ composer.lock: composer.json
 build/logs/coveralls-upload.json: build/logs/clover.xml
 	./vendor/bin/coveralls
 
+config.php: config.php.dist ## Génère le fichier de configuration
+	cp config.php.dist config.php
+
+%:
+	@:

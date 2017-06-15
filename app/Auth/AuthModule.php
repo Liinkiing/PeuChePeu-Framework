@@ -4,6 +4,7 @@ namespace App\Auth;
 
 use App\Auth\Controller\SessionController;
 use Core\App;
+use Core\View\TwigView;
 use Core\View\ViewInterface;
 
 class AuthModule
@@ -13,7 +14,13 @@ class AuthModule
 
     public function __construct(App $app)
     {
-        $app->getContainer()->get(ViewInterface::class)->addPath(__DIR__ . '/views', 'auth');
+        $view = $app->getContainer()->get(ViewInterface::class);
+        $view->addPath(__DIR__ . '/views', 'auth');
+
+        if ($view instanceof TwigView) {
+            $view->getTwig()->addExtension($app->getContainer()->get(Twig\AuthTwigExtension::class));
+        }
+
         $this->routes($app);
     }
 

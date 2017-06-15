@@ -1,40 +1,41 @@
 <?php
 
-namespace App\Blog\Repository;
+namespace App\Blog\Table;
 
+use Core\Database\Database;
 use Core\Database\NoRecordException;
 use Core\Database\PaginatedQuery;
 
 /**
  * Permet de récupérer les articles depuis la base de données.
  */
-class PostRepository
+class PostTable
 {
     /**
-     * @var \PDO
+     * @var Database
      */
-    private $pdo;
+    private $database;
 
-    public function __construct(\PDO $pdo)
+    public function __construct(Database $database)
     {
-        $this->pdo = $pdo;
+        $this->database = $database;
     }
 
     /**
      * Récupère les derniers articles.
      *
-     * @return \PDOStatement
+     * @return array
      */
-    public function getPosts()
+    public function getPosts(): array
     {
-        return $this->pdo->query('SELECT * FROM posts');
+        return $this->database->fetchAll('SELECT * FROM posts');
     }
 
     public function getPaginatedPosts($perPage = 10, $currentPage = 1)
     {
-        $count = $this->pdo->query('SELECT COUNT(id) FROM posts')->fetchColumn();
+        $count = $this->database->fetchColumn('SELECT COUNT(id) FROM posts');
 
-        return (new PaginatedQuery($this->pdo, 'SELECT * FROM posts', $count))
+        return (new PaginatedQuery($this->database, 'SELECT * FROM posts', $count))
             ->getPaginator()
             ->setCurrentPage($currentPage)
             ->setMaxPerPage($perPage);
@@ -51,13 +52,11 @@ class PostRepository
      */
     public function findBySlug(string $slug)
     {
-        $query = $this->pdo->prepare('SELECT * FROM posts WHERE slug = :slug');
-        $query->execute(['slug' => $slug]);
-        $results = $query->fetch();
-        if ($results === false) {
+        $result = $this->database->fetch('SELECT * FROM posts WHERE slug = ?', [$slug]);
+        if ($result === false) {
             throw new NoRecordException();
         }
 
-        return $results;
+        return $result;
     }
 }

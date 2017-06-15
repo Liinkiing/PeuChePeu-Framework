@@ -3,34 +3,35 @@
 namespace App\Auth\Table;
 
 use App\Auth\Entity\User;
+use Core\Database\Database;
 
 class UserTable
 {
     /**
-     * @var \PDO
+     * @var Database
      */
-    private $pdo;
+    private $database;
 
-    public function __construct(\PDO $pdo)
+    public function __construct(Database $database)
     {
-        $this->pdo = $pdo;
+        $this->database = $database;
     }
 
     public function find(int $user_id): User
     {
-        $sth = $this->pdo->prepare('SELECT * FROM users WHERE id = ?');
-        $sth->execute([$user_id]);
-        $sth->setFetchMode(\PDO::FETCH_CLASS, User::class);
-
-        return $sth->fetch();
+        return $this->database->fetch(
+            'SELECT * FROM users WHERE id = ?',
+            [$user_id],
+            User::class
+        );
     }
 
     public function findByUsername(string $username): User
     {
-        $sth = $this->pdo->prepare('SELECT * FROM users WHERE username = :username');
-        $sth->execute(['username' => $username]);
-        $sth->setFetchMode(\PDO::FETCH_CLASS, User::class);
-
-        return $sth->fetch();
+        return $this->database->fetch(
+            'SELECT * FROM users WHERE username = ?',
+            [$username],
+            User::class
+        );
     }
 }

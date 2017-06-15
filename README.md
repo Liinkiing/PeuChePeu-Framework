@@ -17,6 +17,17 @@ principe est de découper notre application en fonction du contexte, plutôt que
 lettre. Chaque bloc doit avoir une classe `Loader` qui permet d'enregistrer les routes, les classes ou autre. Ce 
 Loader.
 
+## Pour démarrer le projet
+
+Pour configurer et travailler sur l'application il faut utiliser `make`. Si vous êtes sur **Windows** utilisez cygwin ou 
+utilisez bash for windows
+
+- `make install`
+- Editez le fichier `config.php` suivant vos besoins, inspirez vous du fichier `core/config.php`
+- `make migrate`, pour créer les tables
+- `make seed`, pour remplir la table (facultatif)
+- `make server`, pour lancer le serveur de développement
+
 ## Dépendances
 
 - [Slim](https://www.slimframework.com/), pour gérer le routeur
@@ -41,12 +52,18 @@ c'est long et répétitif (au pire ils seront fournis avec les sources)
 ## Todo
 
 - [x] Poser la base Slim / PHP-DI
-- [ ] Module Blog (front, permet de voir l'interaction avec la base de données)
+- [x] Module Blog (front, permet de voir l'interaction avec la base de données)
 - [x] Système de migration / seed
 - [x] Tests unitaires
+- [x] Authentification des utilisateur
+- [ ] Back office
 - [ ] Page contact (permet de voir le traitement des formulaire)
-- [ ] Authentification des utilisateur
-- [ ] Back-end de la partie blog
+
+### Module compte utilisateur
+
+- [ ] Inscription
+- [ ] Rappel du mot de passe
+- [ ] Suppression du compte
 
 ### Bloc e-commerce
 
@@ -62,4 +79,5 @@ c'est long et répétitif (au pire ils seront fournis avec les sources)
 
 Pour le moment je pose la base donc ne faites pas de PR avec du nouveau code par contre si vous le souhaitez vous 
 pouvez critiquer le code existant et proposer des changements / refactor. Le but n'est pas de créer le prochain 
-Laravel / Symfony, mais de voir comment on peut créer une structure de projet avec PHP7.
+Laravel / Symfony, mais de voir comment on peut créer une structure de projet avec PHP 7 et les librairies 
+actuellement disponible dans l'écosystème PHP.

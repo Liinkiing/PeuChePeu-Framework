@@ -24,8 +24,8 @@
         "pagerfanta/pagerfanta": "^1.0",
         "cakephp/validation": "^3.4",
         "slim/flash": "^0.2.0",
-        "doctrine/annotations": "^1.4",
-        "kanellov/slim-twig-flash": "^0.2.0"
+        "kanellov/slim-twig-flash": "^0.2.0",
+        "ocramius/proxy-manager": "^2.1"
     },
     "require-dev": {
         "digitalnature/php-ref": "^1.2",

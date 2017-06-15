@@ -9,6 +9,7 @@ class AuthMiddleware
 {
     public function __invoke(RequestInterface $request, ResponseInterface $response, $next)
     {
+        // TODO : Ecrire ce middleware :)
         $response->getBody()->write('BEFORE');
         $response = $next($request, $response);
         $response->getBody()->write('AFTER');

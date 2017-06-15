@@ -11,13 +11,10 @@ use Slim\Views\TwigExtension;
 
 /**
  * Class View
- * Permet d'intéragir avec la gestion de template (ici Twig)
- *
- * @package Core
+ * Permet d'intéragir avec la gestion de template (ici Twig).
  */
 class TwigView implements ViewInterface
 {
-
     /**
      * @var \Twig_Loader_Filesystem
      */
@@ -33,8 +30,7 @@ class TwigView implements ViewInterface
         ModuleExtension $moduleExtension,
         PagerfantaExtension $pagerfantaExtension,
         Messages $flashMessages
-    )
-    {
+    ) {
         $this->loader = new \Twig_Loader_Filesystem();
         $this->twig = new \Twig_Environment($this->loader, [
             'cache' => false, // $basepath . '/tmp/cache'
@@ -48,7 +44,7 @@ class TwigView implements ViewInterface
     }
 
     /**
-     * Permet d'enregistrer un namespace pour les vues
+     * Permet d'enregistrer un namespace pour les vues.
      *
      * @param string $namespace
      * @param string $path
@@ -59,14 +55,23 @@ class TwigView implements ViewInterface
     }
 
     /**
-     * Rend une vue
+     * Rend une vue.
      *
      * @param string $viewName
-     * @param array $data
+     * @param array  $data
+     *
      * @return string
      */
-    public function render (string $viewName, array $data = []): string {
+    public function render(string $viewName, array $data = []): string
+    {
         return $this->twig->render($viewName . '.twig', $data);
     }
 
+    /**
+     * @return \Twig_Environment
+     */
+    public function getTwig(): \Twig_Environment
+    {
+        return $this->twig;
+    }
 }

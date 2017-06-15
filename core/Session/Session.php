@@ -1,18 +1,17 @@
 <?php
 
-
 namespace Core\Session;
-
 
 class Session implements SessionInterface, \ArrayAccess
 {
-
     private $started = false;
+    private $null = null;
 
     /**
-     * Permet de s'assurer que la session est démarrée
+     * Permet de s'assurer que la session est démarrée.
      */
-    private function ensureStarted () {
+    private function ensureStarted()
+    {
         if ($this->started === false && session_status() === PHP_SESSION_NONE) {
             session_start();
             $this->started = true;
@@ -20,32 +19,40 @@ class Session implements SessionInterface, \ArrayAccess
     }
 
     /**
-     * Permet de récupérer une information depuis la session
+     * Permet de récupérer une information depuis la session.
      *
      * @param string $key
-     * @return null
+     *
+     * @return mixed
      */
-    public function get(string $key) {
+    public function &get(string $key)
+    {
         $this->ensureStarted();
         if (array_key_exists($key, $_SESSION)) {
-            return $_SESSION[$key];
+            $result = &$_SESSION[$key];
+
+            return $result;
         }
-        return null;
+
+        $null = &$this->null;
+
+        return $null;
     }
 
     /**
-     * Permet de stocker une information en session
+     * Permet de stocker une information en session.
      *
      * @param string $key
      * @param $value
      */
-    public function set(string $key, $value) {
+    public function set(string $key, $value)
+    {
         $this->ensureStarted();
         $_SESSION[$key] = $value;
     }
 
     /**
-     * Détruit la session
+     * Détruit la session.
      */
     public function destroy()
     {
@@ -60,7 +67,7 @@ class Session implements SessionInterface, \ArrayAccess
         return $this->get($offset);
     }
 
-    public function offsetGet($offset)
+    public function &offsetGet($offset)
     {
         return $this->get($offset);
     }

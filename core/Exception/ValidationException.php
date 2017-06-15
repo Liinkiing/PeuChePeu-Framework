@@ -1,13 +1,12 @@
 <?php
+
 namespace Core\Exception;
 
 /**
- * Représente une erreur de validation
- *
- * @package Core\Exception
+ * Représente une erreur de validation.
  */
-class ValidationException extends \Exception {
-
+class ValidationException extends \Exception
+{
     /**
      * @var array
      */
@@ -15,17 +14,16 @@ class ValidationException extends \Exception {
 
     public function __construct(array $errors)
     {
-
         $this->errors = $errors;
     }
 
     /**
-     * Récupère la liste des erreurs
+     * Récupère la liste des erreurs.
      *
      * @return array
      */
-    public function getErrors (): array {
+    public function getErrors(): array
+    {
         return $this->errors;
     }
-
 }

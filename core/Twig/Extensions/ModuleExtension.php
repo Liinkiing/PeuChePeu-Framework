@@ -1,16 +1,14 @@
 <?php
+
 namespace Core\Twig\Extensions;
 
 use Core\ModulesContainer;
 
 /**
- * Permet de rajouter la fonction module_enabled() à Twig
- *
- * @package Core\Twig\Extensions
+ * Permet de rajouter la fonction module_enabled() à Twig.
  */
 class ModuleExtension extends \Twig_Extension
 {
-
     /**
      * @var ModulesContainer
      */
@@ -21,20 +19,10 @@ class ModuleExtension extends \Twig_Extension
         $this->modules = $modules;
     }
 
-    public function getName()
-    {
-        return 'module';
-    }
-
     public function getFunctions()
     {
         return [
-            new \Twig_SimpleFunction('module_enabled', array($this, 'moduleEnabled')),
+            new \Twig_SimpleFunction('module_enabled', [$this->modules, 'has']),
         ];
-    }
-
-    public function moduleEnabled($moduleName)
-    {
-        return $this->modules->has($moduleName);
     }
 }

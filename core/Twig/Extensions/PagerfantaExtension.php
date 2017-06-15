@@ -1,4 +1,5 @@
 <?php
+
 namespace Core\Twig\Extensions;
 
 use Pagerfanta\Pagerfanta;
@@ -6,13 +7,10 @@ use Pagerfanta\View\TwitterBootstrap4View;
 use Slim\Router;
 
 /**
- * Permet de rajouter la pagination
- *
- * @package Core\Twig\Extensions
+ * Permet de rajouter la pagination.
  */
 class PagerfantaExtension extends \Twig_Extension
 {
-
     /**
      * @var Router
      */
@@ -33,10 +31,12 @@ class PagerfantaExtension extends \Twig_Extension
     public function paginate(Pagerfanta $paginatedResults, $route, $data = [], $queryParams = [])
     {
         $view = new TwitterBootstrap4View();
+
         return $view->render($paginatedResults, function ($page) use ($data, $queryParams) {
             if ($page > 1) {
                 $queryParams['page'] = $page;
             }
+
             return $this->router->pathFor('blog.index', $data, $queryParams);
         });
     }

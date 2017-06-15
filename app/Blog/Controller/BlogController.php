@@ -2,24 +2,24 @@
 
 namespace App\Blog\Controller;
 
-use App\Blog\Repository\PostRepository;
+use App\Blog\Table\PostTable;
 use Core\Controller;
 use Core\View\ViewInterface;
 use Slim\Http\Request;
 
 class BlogController extends Controller
 {
-    public function index(Request $request, ViewInterface $view, PostRepository $postRepository)
+    public function index(Request $request, ViewInterface $view, PostTable $postTable)
     {
         $page = $request->getParam('page', 1);
-        $posts = $postRepository->getPaginatedPosts(12, $page);
+        $posts = $postTable->getPaginatedPosts(12, $page);
 
         return $view->render('@blog/index', compact('posts', 'page'));
     }
 
-    public function show(string $slug, PostRepository $postRepository, ViewInterface $view)
+    public function show(string $slug, PostTable $postTable, ViewInterface $view)
     {
-        $post = $postRepository->findBySlug($slug);
+        $post = $postTable->findBySlug($slug);
 
         return $view->render('@blog/show', compact('post'));
     }
