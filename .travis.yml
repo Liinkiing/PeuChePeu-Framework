@@ -16,4 +16,4 @@ before_install:
 
 script:
   - make lint
-  - make coveralls.json
+  - make tmp/coveralls.json
