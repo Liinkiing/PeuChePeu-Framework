@@ -15,14 +15,14 @@
     <a class="navbar-brand" href="#">Mon application</a>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            {% if module_enabled('BlogModule') %}
+            {% if has_module('blog') %}
             <li class="nav-item active">
                 <a class="nav-link" href="{{ path_for('blog.index') }}">Blog <span class="sr-only">(current)</span></a>
             </li>
             {% endif %}
         </ul>
         <ul class="navbar-nav">
-            {% if module_enabled('AuthModule') %}
+            {% if has_module('auth') %}
                 {% if current_user() %}
                     <li class="nav-item">
                         <a class="nav-link" href="#">{{ current_user().username }}</a>

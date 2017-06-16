@@ -12,8 +12,6 @@ class SessionController extends Controller
 {
     public function create(ViewInterface $view)
     {
-        $messages = $this->flash->getMessages();
-
         return $view->render('@auth/login');
     }
 
@@ -21,7 +19,7 @@ class SessionController extends Controller
     {
         $username = $request->getParam('username');
         $password = $request->getParam('password');
-        $user = $this->getAuth()->login($username, $password);
+        $user = $auth->login($username, $password);
         if ($user) {
             $this->flash->addMessage('success', 'Vous êtes maintenant connecté');
 

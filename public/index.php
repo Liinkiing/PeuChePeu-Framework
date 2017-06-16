@@ -10,10 +10,9 @@ $container->set(\Core\App::class, $app);
 $app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware());
 
 // Les modules
-$container->get(\Core\ModulesContainer::class)
-    ->add($container->get(\App\Base\BaseModule::class))
-    ->add($container->get(\App\Auth\AuthModule::class))
-    ->add($container->get(\App\Blog\BlogModule::class));
+$container->set('modules.base', $container->get(\App\Base\BaseModule::class));
+$container->set('modules.auth', $container->get(\App\Auth\AuthModule::class));
+$container->set('modules.blog', $container->get(\App\Blog\BlogModule::class));
 
 // On lance l'application
 if (php_sapi_name() !== "cli") {
