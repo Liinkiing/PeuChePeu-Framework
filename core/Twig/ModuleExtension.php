@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Twig\Extensions;
+namespace Core\Twig;
 
 use DI\Container;
 

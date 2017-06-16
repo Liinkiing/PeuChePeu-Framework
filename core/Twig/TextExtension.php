@@ -1,6 +1,6 @@
 <?php
 
-namespace Core\Twig\Extensions;
+namespace Core\Twig;
 
 class TextExtension extends \Twig_Extension
 {

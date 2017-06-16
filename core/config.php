@@ -30,6 +30,14 @@ return [
     'session'                             => \Di\get(\Core\Session\SessionInterface::class),
     \Core\Session\SessionInterface::class => \DI\object(\Core\Session\Session::class),
     \Slim\Flash\Messages::class           => \DI\object(\Slim\Flash\Messages::class)->constructor(\DI\get('session')),
+    \Slim\Csrf\Guard::class               => \DI\object()
+                                                ->constructor(
+                                                    'csrf',
+                                                    \DI\get(\Core\Session\SessionInterface::class),
+                                                    200,
+                                                    10,
+                                                    true
+                                                ),
 
     // Database
     'db_name'                             => \DI\env('db_name'),

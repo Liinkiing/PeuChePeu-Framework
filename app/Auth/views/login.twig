@@ -8,6 +8,7 @@
                 <div class="card-header">Se connecter</div>
                 <div class="card-block">
                     <form action="{{ path_for('auth.login') }}" method="post">
+                        {{ csrf_input() }}
                         {% include 'shared/input.twig' with {key: 'username', label: "Nom d'utilisateur"} %}
                         {% include 'shared/input.twig' with {key: 'password', label: "Mot de passe", type:
                         'password'} %}

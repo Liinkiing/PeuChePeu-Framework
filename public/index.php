@@ -4,10 +4,10 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 // On démarre slim
 $app = new \Core\App(dirname(__DIR__) . '/config.php');
 $container = $app->getContainer();
-$container->set(\Core\App::class, $app);
 
 // Middlewares
 $app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware());
+$app->add($container->get(\Slim\Csrf\Guard::class));
 
 // Les modules
 $container->set('modules.base', $container->get(\App\Base\BaseModule::class));
