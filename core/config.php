@@ -2,7 +2,9 @@
 
 return [
     // Chemins
-    'basepath' => dirname(__DIR__),
+    'basepath'       => dirname(__DIR__),
+    'backend.prefix' => '/admin',
+    'backend.role'   => 'admin',
 
     // Paramètres Slim
     'settings' => [
@@ -16,6 +18,9 @@ return [
         'whoops.editor'                     => 'sublime',
         'debug'                             => true
     ],
+
+    // Modules
+    \Core\ModulesContainer::class => \DI\object(),
 
     // Vue
     \Slim\Views\TwigExtension::class      => \DI\object()->constructor(\DI\get('router'), \DI\get('request')),

@@ -17,7 +17,14 @@ class UserTable
         $this->database = $database;
     }
 
-    public function find(int $user_id): User
+    /**
+     * Récupère un utilisateur depuis son ID.
+     *
+     * @param int $user_id
+     *
+     * @return User
+     */
+    public function find(int $user_id): ?User
     {
         return $this->database->fetch(
             'SELECT * FROM users WHERE id = ?',
@@ -26,7 +33,14 @@ class UserTable
         );
     }
 
-    public function findByUsername(string $username): User
+    /**
+     * Récupère un utilisateur depuis son nom d'utilisateur.
+     *
+     * @param string $username
+     *
+     * @return User|null
+     */
+    public function findByUsername(string $username): ?User
     {
         return $this->database->fetch(
             'SELECT * FROM users WHERE username = ?',

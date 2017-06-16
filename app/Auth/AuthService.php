@@ -4,7 +4,6 @@ namespace App\Auth;
 
 use App\Auth\Entity\User;
 use App\Auth\Table\UserTable;
-use Core\Exception\ValidationException;
 use Core\Session\SessionInterface;
 
 class AuthService
@@ -22,7 +21,7 @@ class AuthService
     /**
      * @var User
      */
-    private $user = false;
+    private $user = null;
 
     public function __construct(UserTable $userTable, SessionInterface $session)
     {
@@ -33,34 +32,27 @@ class AuthService
     /**
      * Permet d'identifier un utilisateur.
      *
-     * @param array $params
+     * @param string $username
+     * @param string $password
      *
-     * @throws ValidationException
-     *
-     * @return User
+     * @return User|bool
      */
-    public function login(array $params): User
+    public function login(?string $username, ?string $password): ?User
     {
         // On valide les informations
-        $validator = new \Cake\Validation\Validator();
-        $validator
-            ->requirePresence('username')
-            ->lengthBetween('username', [4, 50], 'Votre pseudo doit être entre 4 et 50 caractères')
-            ->requirePresence('password')
-            ->minLength('password', 4);
-        $errors = $validator->errors($params);
-        if (count($errors) > 0) {
-            throw new ValidationException($errors);
+        if (empty($username) || empty($password)) {
+            return null;
         }
 
         // On valide l'utilisateur
-        $user = $this->userTable->findByUsername($params['username']);
-        if ($user && $user->checkPassword($params['password'])) {
+        $user = $this->userTable->findByUsername($username);
+        if ($user && $user->checkPassword($password)) {
             $this->session->set('auth.user', $user->id);
 
             return $user;
         }
-        throw new ValidationException(['password' => 'Identifiant ou mot de passe incorrect']);
+
+        return null;
     }
 
     /**
@@ -68,7 +60,7 @@ class AuthService
      *
      * @return User|bool
      */
-    public function user()
+    public function user(): ?User
     {
         if ($this->user) {
             return $this->user;
@@ -78,9 +70,20 @@ class AuthService
             $user = $this->userTable->find($user_id);
             if ($user) {
                 $this->user = $user;
+            } else {
+                $this->session->delete('auth.user');
             }
         }
 
         return $this->user;
+    }
+
+    /**
+     * Déconnecte un utilisateur de l'application.
+     */
+    public function logout()
+    {
+        $this->session->delete('auth.user');
+        $this->user = null;
     }
 }

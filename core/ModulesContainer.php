@@ -13,25 +13,18 @@ class ModulesContainer
     private $modules = [];
 
     /**
-     * @var App
-     */
-    private $app;
-
-    public function __construct(App $app)
-    {
-        $this->app = $app;
-    }
-
-    /**
      * Permet de rajouter un module dans l'application.
      *
-     * @param string $module
+     * @param Module $module
+     *
+     * @return ModulesContainer
      */
-    public function add(string $module)
+    public function add(Module $module): ModulesContainer
     {
-        $module = new $module($this->app);
         $moduleName = (new \ReflectionClass($module))->getShortName();
         $this->modules[$moduleName] = $module;
+
+        return $this;
     }
 
     /**
@@ -53,7 +46,7 @@ class ModulesContainer
     {
         $migrations = [];
         foreach ($this->modules as $module) {
-            if (property_exists($module, 'migrations')) {
+            if ($module->migrations) {
                 $migrations[] = $module->migrations;
             }
         }
@@ -68,7 +61,7 @@ class ModulesContainer
     {
         $seeds = [];
         foreach ($this->modules as $module) {
-            if (property_exists($module, 'seeds')) {
+            if ($module->seeds) {
                 $seeds[] = $module->seeds;
             }
         }

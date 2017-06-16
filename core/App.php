@@ -33,14 +33,4 @@ class App extends \DI\Bridge\Slim\App
         ]);
         $builder->addDefinitions($this->definitions);
     }
-
-    /**
-     * Permet de rajouter un module dans l'application.
-     *
-     * @param string $module
-     */
-    public function addModule(string $module)
-    {
-        $this->modules->add($module);
-    }
 }

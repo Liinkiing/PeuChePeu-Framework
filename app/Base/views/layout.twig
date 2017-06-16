@@ -23,11 +23,25 @@
         </ul>
         <ul class="navbar-nav">
             {% if module_enabled('AuthModule') %}
-            <li class="nav-item active">
                 {% if current_user() %}
-                    <a class="nav-link" href="#">{{ current_user().username }}</a>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">{{ current_user().username }}</a>
+                    </li>
+                    {% if has_role('admin') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="#">Administration</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <form action="{{ path_for('auth.logout') }}" method="post">
+                            <input type="hidden" name="_METHOD" value="DELETE">
+                            <button class="nav-link" type="submit">Se déconnecter</button>
+                        </form>
+                    </li>
                 {% else %}
-                    <a class="nav-link" href="{{ path_for('auth.login') }}">Se connecter</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path_for('auth.login') }}">Se connecter</a>
+                    </li>
                 {% endif %}
             </li>
             {% endif %}

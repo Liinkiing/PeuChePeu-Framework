@@ -2,17 +2,14 @@
 
 namespace App\Auth\Controller;
 
-use App\Auth\Authenticable;
+use App\Auth\AuthService;
 use Core\Controller;
-use Core\Exception\ValidationException;
 use Core\View\ViewInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class SessionController extends Controller
 {
-    use Authenticable;
-
     public function create(ViewInterface $view)
     {
         $messages = $this->flash->getMessages();
@@ -20,17 +17,26 @@ class SessionController extends Controller
         return $view->render('@auth/login');
     }
 
-    public function store(Request $request, Response $response)
+    public function store(Request $request, Response $response, AuthService $auth)
     {
-        try {
-            $user = $this->getAuth()->login($request->getParams());
+        $username = $request->getParam('username');
+        $password = $request->getParam('password');
+        $user = $this->getAuth()->login($username, $password);
+        if ($user) {
             $this->flash->addMessage('success', 'Vous êtes maintenant connecté');
 
             return $response->withAddedHeader('location', '/');
-        } catch (ValidationException $e) {
-            $this->flash->addMessage('error', 'Mot de passe ou identifiant incorrect');
-
-            return $this->render('@auth/login', ['errors' => $e->getErrors()]);
         }
+        $this->flash->addMessage('error', 'Mot de passe ou identifiant incorrect');
+
+        return $this->render('@auth/login');
+    }
+
+    public function destroy(Response $response, AuthService $auth)
+    {
+        $auth->logout();
+        $this->flash->addMessage('success', 'Vous êtes maintenant déconnecté');
+
+        return $response->withAddedHeader('location', '/');
     }
 }

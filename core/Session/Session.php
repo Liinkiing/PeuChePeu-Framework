@@ -19,11 +19,7 @@ class Session implements SessionInterface, \ArrayAccess
     }
 
     /**
-     * Permet de récupérer une information depuis la session.
-     *
-     * @param string $key
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function &get(string $key)
     {
@@ -40,10 +36,7 @@ class Session implements SessionInterface, \ArrayAccess
     }
 
     /**
-     * Permet de stocker une information en session.
-     *
-     * @param string $key
-     * @param $value
+     * {@inheritdoc}
      */
     public function set(string $key, $value)
     {
@@ -51,8 +44,13 @@ class Session implements SessionInterface, \ArrayAccess
         $_SESSION[$key] = $value;
     }
 
+    public function delete(string $key)
+    {
+        unset($_SESSION[$key]);
+    }
+
     /**
-     * Détruit la session.
+     * {@inheritdoc}
      */
     public function destroy()
     {
@@ -79,6 +77,6 @@ class Session implements SessionInterface, \ArrayAccess
 
     public function offsetUnset($offset)
     {
-        unset($_SESSION[$offset]);
+        $this->delete($offset);
     }
 }

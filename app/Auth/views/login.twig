@@ -16,6 +16,7 @@
                 </div>
             </div>
         </div>
+        {% if module_enabled('RegistrationModule') %}
         <div class="col-sm-6">
             <div class="card">
                 <div class="card-header">S'inscrire</div>
@@ -34,6 +35,7 @@
                 </div>
             </div>
         </div>
+        {% endif %}
     </div>
 
 {% endblock %}

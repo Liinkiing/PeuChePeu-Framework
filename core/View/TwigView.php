@@ -49,7 +49,7 @@ class TwigView implements ViewInterface
      * @param string $namespace
      * @param string $path
      */
-    public function addPath(string $path, $namespace = \Twig_Loader_Filesystem::MAIN_NAMESPACE)
+    public function addPath(string $path, string $namespace = \Twig_Loader_Filesystem::MAIN_NAMESPACE)
     {
         $this->loader->addPath($path, $namespace);
     }

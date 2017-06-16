@@ -1,16 +1,16 @@
 <?php
 
-class FakeModule {
+class FakeModule extends \Core\Module {
 
 }
 
-class FakeModuleWithMigration {
+class FakeModuleWithMigration extends \Core\Module {
 
     public $migrations = 'mig';
 
 }
 
-class FakeModuleWithSeeds {
+class FakeModuleWithSeeds extends \Core\Module {
 
     public $seeds = 'seed';
 
@@ -35,21 +35,23 @@ class ModulesContainerTest extends \PHPUnit\Framework\TestCase {
     }
 
     public function testHasWithModule () {
-        $this->container->add(FakeModule::class);
+        $this->container->add(new FakeModule());
         $this->assertEquals(true, $this->container->has('FakeModule'));
     }
 
     public function testGetMigrations () {
-        $this->container->add(FakeModule::class);
-        $this->container->add(FakeModuleWithMigration::class);
-        $this->container->add(FakeModuleWithSeeds::class);
+        $this->container
+            ->add(new FakeModule())
+            ->add(new FakeModuleWithMigration())
+            ->add(new FakeModuleWithSeeds());
         $this->assertEquals(['mig'], $this->container->getMigrations());
     }
 
     public function testGetSeeders () {
-        $this->container->add(FakeModule::class);
-        $this->container->add(FakeModuleWithMigration::class);
-        $this->container->add(FakeModuleWithSeeds::class);
+        $this->container
+            ->add(new FakeModule())
+            ->add(new FakeModuleWithMigration())
+            ->add(new FakeModuleWithSeeds());
         $this->assertEquals(['seed'], $this->container->getSeeders());
     }
 
