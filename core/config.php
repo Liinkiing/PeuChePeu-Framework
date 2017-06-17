@@ -1,26 +1,14 @@
 <?php
 
+use Schnittstabil\Psr7\Csrf\MiddlewareBuilder as CsrfMiddlewareBuilder;
+
 return [
     // Chemins
-    'basepath'       => dirname(__DIR__),
-    'backend.prefix' => '/admin',
-    'backend.role'   => 'admin',
-
-    // Paramètres Slim
-    'settings' => [
-        'httpVersion'                       => '1.1',
-        'responseChunkSize'                 => 4096,
-        'outputBuffering'                   => 'append',
-        'determineRouteBeforeAppMiddleware' => false,
-        'displayErrorDetails'               => true,
-        'addContentLengthHeader'            => true,
-        'routerCacheFile'                   => false,
-        'whoops.editor'                     => 'sublime',
-        'debug'                             => true
-    ],
-
-    // Modules
-    \Core\ModulesContainer::class => \DI\object(),
+    'basepath'                     => dirname(__DIR__),
+    'backend.prefix'               => '/admin',
+    'backend.role'                 => 'admin',
+    'settings.displayErrorDetails' => true,
+    'settings.routerCacheFile'     => dirname(__DIR__) . '/tmp/routes',
 
     // Vue
     \Slim\Views\TwigExtension::class      => \DI\object()->constructor(\DI\get('router'), \DI\get('request')),
@@ -30,13 +18,18 @@ return [
     'session'                             => \Di\get(\Core\Session\SessionInterface::class),
     \Core\Session\SessionInterface::class => \DI\object(\Core\Session\Session::class),
     \Slim\Flash\Messages::class           => \DI\object(\Slim\Flash\Messages::class)->constructor(\DI\get('session')),
-    \Slim\Csrf\Guard::class               => \DI\object()
+
+    // CSRF
+    'csrf.name'                           => 'X-XSRF-TOKEN',
+    'csrf.key'                            => \DI\env('csrf_key', 'fake key'),
+    'csrf'                                => function ($c) {
+        return CsrfMiddlewareBuilder::create($c->get('csrf.key'))
+            ->buildSynchronizerTokenPatternMiddleware($c->get('csrf.name'));
+    },
+    \Core\Twig\CsrfExtension::class       => \DI\object()
                                                 ->constructor(
-                                                    'csrf',
-                                                    \DI\get(\Core\Session\SessionInterface::class),
-                                                    200,
-                                                    10,
-                                                    true
+                                                    \DI\get('csrf.name'),
+                                                    \DI\get('csrf')
                                                 ),
 
     // Database

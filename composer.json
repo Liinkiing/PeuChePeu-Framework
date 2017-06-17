@@ -25,7 +25,7 @@
         "cakephp/validation": "^3.4",
         "slim/flash": "^0.2.0",
         "kanellov/slim-twig-flash": "^0.2.0",
-        "slim/csrf": "^0.8.1"
+        "schnittstabil/psr7-csrf-middleware": "^1.1"
     },
     "require-dev": {
         "digitalnature/php-ref": "^1.2",

@@ -12,7 +12,7 @@ help: ## This help
 install: config.php vendor ## Install application
 
 server: ## Lance le serveur de dev
-	php -S localhost:8080 -t public -d display_errors=1
+	php -S localhost:8000 -t public -d display_errors=1
 
 #############
 # Base de données

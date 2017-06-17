@@ -3,7 +3,6 @@
 namespace Core;
 
 use Core\View\ViewInterface;
-use DI\Annotation\Inject;
 use DI\Container;
 use Slim\Flash\Messages;
 
@@ -16,13 +15,6 @@ class Controller
      * @var Container
      */
     protected $container;
-
-    /**
-     * @Inject
-     *
-     * @var Messages
-     */
-    protected $flash;
 
     /**
      * Controller constructor.
@@ -45,5 +37,10 @@ class Controller
     public function render(string $filename, array $data = []): string
     {
         return $this->container->get(ViewInterface::class)->render($filename, $data);
+    }
+
+    public function getFlash()
+    {
+        return $this->container->get(Messages::class);
     }
 }

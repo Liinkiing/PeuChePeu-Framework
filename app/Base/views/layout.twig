@@ -35,6 +35,7 @@
                     <li class="nav-item">
                         <form action="{{ path_for('auth.logout') }}" method="post">
                             <input type="hidden" name="_METHOD" value="DELETE">
+                            {{ csrf_input() }}
                             <button class="nav-link" type="submit">Se déconnecter</button>
                         </form>
                     </li>

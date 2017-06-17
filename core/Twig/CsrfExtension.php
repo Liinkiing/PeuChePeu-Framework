@@ -2,18 +2,25 @@
 
 namespace Core\Twig;
 
-use Slim\Csrf\Guard;
+use Schnittstabil\Csrf\TokenService\TokenServiceInterface;
+use Schnittstabil\Psr7\Csrf\Middleware;
 
 class CsrfExtension extends \Twig_Extension
 {
     /**
-     * @var Guard
+     * @var TokenServiceInterface
      */
-    private $csrf;
+    private $service;
 
-    public function __construct(Guard $guard)
+    /**
+     * @var string
+     */
+    private $csrfName;
+
+    public function __construct(string $csrfName, Middleware $middleware)
     {
-        $this->csrf = $guard;
+        $this->service = $middleware->getTokenService();
+        $this->csrfName = $csrfName;
     }
 
     public function getFunctions()
@@ -25,14 +32,9 @@ class CsrfExtension extends \Twig_Extension
 
     public function input(): string
     {
-        $nameKey = $this->csrf->getTokenNameKey();
-        $valueKey = $this->csrf->getTokenValueKey();
-        $name = $this->csrf->getTokenName();
-        $value = $this->csrf->getTokenValue();
+        $token = $this->service->generate();
+        $name = $this->csrfName;
 
-        return '
-            <input type="hidden" name="' . $nameKey . '" value="' . $name . '">
-            <input type="hidden" name="' . $valueKey . '" value="' . $value . '">
-        ';
+        return "<input type=\"hidden\" name=\"$name\" value=\"$token\" />";
     }
 }

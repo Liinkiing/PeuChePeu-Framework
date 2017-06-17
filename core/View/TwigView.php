@@ -35,7 +35,7 @@ class TwigView implements ViewInterface
     ) {
         $this->loader = new \Twig_Loader_Filesystem();
         $this->twig = new \Twig_Environment($this->loader, [
-            'cache' => false, // $basepath . '/tmp/cache'
+            'cache' => false
         ]);
         // Ajout des extensions
         $this->twig->addExtension($moduleExtension);

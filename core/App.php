@@ -15,12 +15,15 @@ class App extends \DI\Bridge\Slim\App
     {
         $this->definitions = $definitions;
         parent::__construct();
+
+        // Middlewares
+        $this->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware());
+        $this->add($this->getContainer()->get('csrf'));
     }
 
-    protected function configureContainer(\DI\ContainerBuilder $builder)
+    protected function configureContainer(\DI\ContainerBuilder $builder): void
     {
         // PHP-DI
-        $builder->useAnnotations(true);
         $builder->addDefinitions(__DIR__ . '/config.php');
         $builder->addDefinitions($this->definitions);
         $builder->addDefinitions([
