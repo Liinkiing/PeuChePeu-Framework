@@ -4,14 +4,16 @@ use Schnittstabil\Psr7\Csrf\MiddlewareBuilder as CsrfMiddlewareBuilder;
 
 return [
     // Chemins
-    'basepath'                     => dirname(__DIR__),
-    'backend.prefix'               => '/admin',
-    'backend.role'                 => 'admin',
-    'settings.displayErrorDetails' => true,
-    'settings.routerCacheFile'     => dirname(__DIR__) . '/tmp/routes',
+    'basepath'                            => dirname(__DIR__),
+    'backend.prefix'                      => '/admin',
+    'backend.role'                        => 'admin',
+    'settings.displayErrorDetails'        => true,
+    'settings.routerCacheFile'            => dirname(__DIR__) . '/tmp/routes',
+    'errorHandler'                        => \DI\object(\Core\Handler::class),
 
     // Vue
-    \Slim\Views\TwigExtension::class      => \DI\object()->constructor(\DI\get('router'), \DI\get('request')),
+    \Slim\Views\TwigExtension::class      => \DI\object()->constructor(\DI\get('router'),
+        \DI\get('request')),
     \Core\View\ViewInterface::class       => \DI\object(\Core\View\TwigView::class),
 
     // Session
@@ -27,10 +29,10 @@ return [
             ->buildSynchronizerTokenPatternMiddleware($c->get('csrf.name'));
     },
     \Core\Twig\CsrfExtension::class       => \DI\object()
-                                                ->constructor(
-                                                    \DI\get('csrf.name'),
-                                                    \DI\get('csrf')
-                                                ),
+        ->constructor(
+            \DI\get('csrf.name'),
+            \DI\get('csrf')
+        ),
 
     // Database
     'db_name'                             => \DI\env('db_name'),
@@ -38,10 +40,10 @@ return [
     'db_password'                         => \DI\env('db_password', 'root'),
     'db_host'                             => \DI\env('db_host', '127.0.0.1'),
     \Core\Database\Database::class        => \DI\object()->constructor(
-                                                \DI\get('db_name'),
-                                                \DI\get('db_username'),
-                                                \DI\get('db_password'),
-                                                \DI\get('db_host')
-                                            ),
+        \DI\get('db_name'),
+        \DI\get('db_username'),
+        \DI\get('db_password'),
+        \DI\get('db_host')
+    ),
     'db'                                  => \DI\get(\Core\Database\Database::class),
 ];

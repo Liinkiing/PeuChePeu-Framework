@@ -12,22 +12,26 @@ class SessionController extends Controller
 {
     public function create(ViewInterface $view)
     {
-        return $view->render('@auth/login');
+        $redirectMessages = $this->getFlash()->getMessage('redirect');
+        $redirect = count($redirectMessages) > 0 ? $redirectMessages[0] : null;
+
+        return $view->render('@auth/login', compact('redirect'));
     }
 
     public function store(Request $request, Response $response, AuthService $auth)
     {
         $username = $request->getParam('username');
         $password = $request->getParam('password');
+        $redirect = $request->getParam('redirect');
         $user = $auth->login($username, $password);
         if ($user) {
             $this->getFlash()->addMessage('success', 'Vous êtes maintenant connecté');
 
-            return $response->withAddedHeader('location', '/');
+            return $response->withAddedHeader('location', $redirect ?: '/');
         }
         $this->getFlash()->addMessage('error', 'Mot de passe ou identifiant incorrect');
 
-        return $this->render('@auth/login');
+        return $this->render('@auth/login', compact('redirect'));
     }
 
     public function destroy(Response $response, AuthService $auth)

@@ -10,8 +10,8 @@
                     <form action="{{ path_for('auth.login') }}" method="post">
                         {{ csrf_input() }}
                         {% include 'shared/input.twig' with {key: 'username', label: "Nom d'utilisateur"} %}
-                        {% include 'shared/input.twig' with {key: 'password', label: "Mot de passe", type:
-                        'password'} %}
+                        {% include 'shared/input.twig' with {key: 'password', label: "Mot de passe", type: 'password'} %}
+                        <input type="hidden" name="redirect" value="{{ redirect }}">
                         <button class="btn btn-primary">Se connecter</button>
                     </form>
                 </div>
