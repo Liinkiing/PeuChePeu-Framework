@@ -15,7 +15,7 @@ class Table
     /**
      * @var string Nom de la table en abse de données
      */
-    protected $table;
+    protected const TABLE = null;
 
     public function __construct(Database $database)
     {
@@ -31,7 +31,7 @@ class Table
      */
     public function find(int $id): array
     {
-        return $this->database->fetch('SELECT * FROM ' . $this->table . ' WHERE id = ?', [$id]);
+        return $this->database->fetch('SELECT * FROM ' . static::TABLE . ' WHERE id = ?', [$id]);
     }
 
     /**
@@ -43,7 +43,7 @@ class Table
      */
     public function delete(int $id): \PDOStatement
     {
-        return $this->database->query('DELETE FROM ' . $this->table . ' WHERE id = ?', [$id]);
+        return $this->database->query('DELETE FROM ' . static::TABLE . ' WHERE id = ?', [$id]);
     }
 
     /**
@@ -62,7 +62,7 @@ class Table
         }, array_keys($params)));
         $params['id'] = $id;
 
-        return $this->database->query("UPDATE {$this->table} SET $query WHERE id = :id", $params);
+        return $this->database->query('UPDATE ' . static::TABLE . ' SET ' . $query . ' WHERE id = :id', $params);
     }
 
     /**
@@ -77,7 +77,7 @@ class Table
         $query = implode(', ', array_map(function ($field) {
             return "$field = :$field";
         }, array_keys($params)));
-        $this->database->query("INSERT INTO {$this->table} SET $query", $params);
+        $this->database->query('INSERT INTO ' . static::TABLE . ' SET ' . $query, $params);
 
         return $this->database->lastInsertId();
     }

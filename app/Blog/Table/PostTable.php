@@ -11,7 +11,7 @@ use Core\Database\Table;
  */
 class PostTable extends Table
 {
-    protected $table = 'posts';
+    protected const TABLE = 'posts';
 
     public function findPaginated($perPage = 10, $currentPage = 1)
     {

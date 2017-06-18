@@ -2,7 +2,7 @@
 use Core\Database\Table;
 
 class FakeTableTest extends Table {
-    protected $table = "fake";
+    protected const TABLE = "fake";
 }
 
 class TableTest extends \PHPUnit\Framework\TestCase {
