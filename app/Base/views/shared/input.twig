@@ -1,9 +1,20 @@
-<div class="form-group{% if errors.username %} has-danger{% endif %}">
+<div class="form-group{% if errors[key] %} has-danger{% endif %}">
     <label for="{{ key }}">{{ label }}</label>
-    <input type="{{ type ?: 'text' }}" id="{{ key }}" name="{{ key }}" class="form-control {% if errors[key]
-    %}form-control-danger{%
-    endif
-    %}">
+    {% if type == 'textarea' %}
+        <textarea
+                id="{{ key }}"
+                name="{{ key }}"
+                class="form-control {% if errors[key] %}form-control-danger{% endif %}"
+        >{{ value }}</textarea>
+    {% else %}
+        <input
+                type="{{ type ?: 'text' }}"
+                id="{{ key }}"
+                name="{{ key }}"
+                class="form-control {% if errors[key] %}form-control-danger{% endif %} {{ input_class }}"
+                value="{{ value }}"
+        >
+    {% endif %}
     {% if errors[key] %}
         <small class="form-text text-muted">{{ errors[key] | join(',') }}</small>
     {% endif %}

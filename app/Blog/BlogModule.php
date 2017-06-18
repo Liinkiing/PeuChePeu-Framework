@@ -3,6 +3,7 @@
 namespace App\Blog;
 
 use App\Auth\AuthModule;
+use App\Blog\Controller\AdminBlogController;
 use App\Blog\Controller\BlogController;
 use Core\App;
 use Core\Module;
@@ -24,9 +25,11 @@ class BlogModule extends Module
     {
         $app->get('/blog', [BlogController::class, 'index'])->setName('blog.index');
         $app->get('/blog/{slug}', [BlogController::class, 'show'])->setName('blog.show');
-
-        $app->group($app->getContainer()->get('backend.prefix'), function () {
-            $this->get('/blog', [BlogController::class, 'index'])->setName('backend.blog.index');
+        $app->group($app->getContainer()->get('admin.prefix'), function () {
+            $this->get('/blog', [AdminBlogController::class, 'index'])->setName('blog.admin.index');
+            $this->map(['GET', 'POST'], '/blog/{id:[0-9]+}', [AdminBlogController::class, 'edit'])->setName('blog.admin.edit');
+            $this->map(['GET', 'POST'], '/blog/new', [AdminBlogController::class, 'create'])->setName('blog.admin.create');
+            $this->delete('/blog/{id:[0-9]+}', [AdminBlogController::class, 'destroy'])->setName('blog.admin.destroy');
         })->add($authModule->makeRoleMiddleware('admin'));
     }
 }

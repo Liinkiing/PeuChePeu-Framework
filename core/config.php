@@ -5,11 +5,12 @@ use Schnittstabil\Psr7\Csrf\MiddlewareBuilder as CsrfMiddlewareBuilder;
 return [
     // Chemins
     'basepath'                            => dirname(__DIR__),
-    'backend.prefix'                      => '/admin',
-    'backend.role'                        => 'admin',
     'settings.displayErrorDetails'        => true,
-    'settings.routerCacheFile'            => dirname(__DIR__) . '/tmp/routes',
+    'settings.routerCacheFile'            => false,
     'errorHandler'                        => \DI\object(\Core\Handler::class),
+
+    // Misc
+    \Slim\Interfaces\RouterInterface::class => \DI\object(\Slim\Router::class),
 
     // Vue
     \Slim\Views\TwigExtension::class      => \DI\object()->constructor(\DI\get('router'),
@@ -46,4 +47,8 @@ return [
         \DI\get('db_host')
     ),
     'db'                                  => \DI\get(\Core\Database\Database::class),
+
+    // Admin module
+    'admin.prefix'                      => '/admin',
+    'admin.role'                        => 'admin'
 ];

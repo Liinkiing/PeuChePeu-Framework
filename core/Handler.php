@@ -4,6 +4,7 @@ namespace Core;
 
 use App\Auth\Exception\ForbiddenException;
 use Slim\Flash\Messages;
+use Slim\Handlers\Error;
 use Slim\Http\Request;
 use Slim\Http\Response;
 use Slim\Router;
@@ -20,10 +21,16 @@ class Handler
      */
     private $router;
 
+    /**
+     * @var Error
+     */
+    private $errorHandler;
+
     public function __construct(Messages $flash, Router $router)
     {
         $this->flash = $flash;
         $this->router = $router;
+        $this->errorHandler = new Error(true);
     }
 
     public function __invoke(
@@ -41,5 +48,7 @@ class Handler
                     $this->router->pathFor('auth.login')
                 );
         }
+
+        return $this->errorHandler->__invoke($request, $response, $e);
     }
 }

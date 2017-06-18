@@ -25,11 +25,11 @@ class SessionController extends Controller
         $redirect = $request->getParam('redirect');
         $user = $auth->login($username, $password);
         if ($user) {
-            $this->getFlash()->addMessage('success', 'Vous êtes maintenant connecté');
+            $this->flash('success', 'Vous êtes maintenant connecté');
 
             return $response->withAddedHeader('location', $redirect ?: '/');
         }
-        $this->getFlash()->addMessage('error', 'Mot de passe ou identifiant incorrect');
+        $this->flash('error', 'Mot de passe ou identifiant incorrect');
 
         return $this->render('@auth/login', compact('redirect'));
     }
@@ -37,7 +37,7 @@ class SessionController extends Controller
     public function destroy(Response $response, AuthService $auth)
     {
         $auth->logout();
-        $this->getFlash()->addMessage('success', 'Vous êtes maintenant déconnecté');
+        $this->flash('success', 'Vous êtes maintenant déconnecté');
 
         return $response->withAddedHeader('location', '/');
     }

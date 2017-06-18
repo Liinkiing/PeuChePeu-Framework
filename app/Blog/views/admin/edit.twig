@@ -1,0 +1,15 @@
+{% extends('@admin/layout.twig') %}
+
+{% block content %}
+
+    <h1>Editer l'article</h1>
+
+    <form action="#" method="post">
+        {{ csrf_input() }}
+        {% include 'shared/input.twig' with {key: 'name', label: "Titre", value: post.name} %}
+        {% include 'shared/input.twig' with {type: 'textarea', key: 'content', label: "Contenu", value: post.content} %}
+        {% include 'shared/input.twig' with {key: 'created_at', label: "Date de création", value: post.created_at, input_class: 'datepicker'} %}
+        <button class="btn btn-primary">Editer</button>
+    </form>
+
+{% endblock %}

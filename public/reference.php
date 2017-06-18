@@ -5,7 +5,7 @@ session_start();
 $database = new \Core\Database\Database('monframework');
 $postTable = new \App\Blog\Table\PostTable($database);
 $text = new \Core\Twig\TextExtension();
-$posts = $postTable->getPaginatedPosts(10, isset($_GET['page']) ? $_GET['page'] :
+$posts = $postTable->findPaginated(10, isset($_GET['page']) ? $_GET['page'] :
     1);
 function chunk_iterable($listOfThings, $size) {
     $chunk = 0;

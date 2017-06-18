@@ -7,7 +7,7 @@ function chunk_iterable($listOfThings, $size)
     $index = 0;
     foreach ($listOfThings as $thing) {
         if ($index && $index % $size === 0) {
-            $chunk++;
+            ++$chunk;
         }
         $chunks[$chunk][] = $thing;
         ++$index;
