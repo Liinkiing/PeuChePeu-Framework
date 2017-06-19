@@ -81,4 +81,14 @@ class Table
 
         return $this->database->lastInsertId();
     }
+
+    /**
+     * Compte le nombre d'enregistrement.
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return $this->database->fetchColumn('SELECT COUNT(id) FROM ' . static::TABLE);
+    }
 }

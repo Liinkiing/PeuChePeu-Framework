@@ -3,7 +3,6 @@
 namespace App\Auth;
 
 use App\Auth\Controller\SessionController;
-use App\Auth\Middleware\RoleMiddleware;
 use Core\App;
 use Core\Module;
 use Core\View\TwigView;
@@ -12,8 +11,9 @@ use DI\Container;
 
 class AuthModule extends Module
 {
-    public $migrations = __DIR__ . '/db/migrations';
-    public $seeds = __DIR__ . '/db/seeds';
+    public const MIGRATIONS = __DIR__ . '/db/migrations';
+    public const SEEDS = __DIR__ . '/db/seeds';
+    public const DEFINITIONS = __DIR__ . '/config.php';
 
     /**
      * @var Container
@@ -40,10 +40,5 @@ class AuthModule extends Module
         $router->get('/login', [SessionController::class, 'create'])->setName('auth.login');
         $router->post('/login', [SessionController::class, 'store']);
         $router->delete('/logout', [SessionController::class, 'destroy'])->setName('auth.logout');
-    }
-
-    public function makeRoleMiddleware(string $role): RoleMiddleware
-    {
-        return new RoleMiddleware($this->container->get(AuthService::class), $role);
     }
 }

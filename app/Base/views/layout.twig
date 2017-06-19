@@ -24,12 +24,9 @@
         <ul class="navbar-nav">
             {% if has_module('auth') %}
                 {% if current_user() %}
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">{{ current_user().username }}</a>
-                    </li>
                     {% if has_role('admin') %}
                         <li class="nav-item">
-                            <a class="nav-link" href="#">Administration</a>
+                            <a class="nav-link" href="{{ path_for('admin.index') }}">Administration</a>
                         </li>
                     {% endif %}
                     <li class="nav-item">

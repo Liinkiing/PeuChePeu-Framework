@@ -16,7 +16,7 @@ class TableTest extends \PHPUnit\Framework\TestCase {
     {
         $this->database = $this->getMockBuilder(\Core\Database\Database::class)
             ->disableOriginalConstructor()
-            ->setMethods(['query', 'fetch', 'lastInsertId'])
+            ->setMethods(['query', 'fetch', 'lastInsertId', 'fetchColumn'])
             ->getMock();
 
         $this->table = new FakeTableTest($this->database);
@@ -75,6 +75,16 @@ class TableTest extends \PHPUnit\Framework\TestCase {
 
         $id = $this->table->create(['a' => 'a', 'b' => 2]);
         $this->assertEquals(3, $id);
+    }
+
+    public function testCount () {
+        $this->database
+            ->expects($this->once())
+            ->method('fetchColumn')
+            ->with($this->equalTo('SELECT COUNT(id) FROM fake'))
+            ->willReturn(10);
+
+        $this->assertEquals(10, $this->table->count());
     }
 
 }

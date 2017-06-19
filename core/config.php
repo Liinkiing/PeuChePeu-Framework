@@ -47,8 +47,4 @@ return [
         \DI\get('db_host')
     ),
     'db'                                  => \DI\get(\Core\Database\Database::class),
-
-    // Admin module
-    'admin.prefix'                      => '/admin',
-    'admin.role'                        => 'admin'
 ];

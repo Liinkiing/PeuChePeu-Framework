@@ -57,7 +57,8 @@ c'est long et répétitif (au pire ils seront fournis avec les sources).
 - [x] Système de migration / seed
 - [x] Tests unitaires
 - [x] Authentification des utilisateur
-- [ ] Back office pour la gestion des articles
+- [x] Back office pour la gestion des articles
+- [ ] Upload d'un fichier à la une
 - [ ] Ajout des catégories
 - [ ] Page contact (permet de voir le traitement des formulaire)
 

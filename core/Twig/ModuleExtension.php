@@ -28,6 +28,8 @@ class ModuleExtension extends \Twig_Extension
 
     public function hasModule(string $moduleName): bool
     {
-        return $this->container->has('modules.' . $moduleName);
+        $moduleName = ucfirst($moduleName);
+
+        return $this->container->has("App\\{$moduleName}\\{$moduleName}Module");
     }
 }

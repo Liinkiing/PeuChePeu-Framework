@@ -1,0 +1,10 @@
+{% extends '@admin/layout.twig' %}
+
+{% block content %}
+    <h1>Dashboard</h1>
+    <div class="row">
+        {% for widget in widgets %}
+            {{ widget.render() | raw }}
+        {% endfor %}
+    </div>
+{% endblock %}
