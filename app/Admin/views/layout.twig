@@ -13,7 +13,7 @@
 <body>
 
 <nav class="navbar  navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
-    <a class="navbar-brand" href="#">Administration</a>
+    <a class="navbar-brand" href="{{ path_for('admin.index') }}">Administration</a>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
             {% if has_module('blog') %}

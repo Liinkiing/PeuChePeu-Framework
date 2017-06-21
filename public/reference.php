@@ -3,7 +3,7 @@
 require '../vendor/autoload.php';
 session_start();
 $database = new \Core\Database\Database('monframework');
-$postTable = new \App\Blog\Table\PostTable($database);
+$postTable = new \App\Blog\PostTable($database);
 $text = new \Core\Twig\TextExtension();
 $posts = $postTable->findPaginated(10, isset($_GET['page']) ? $_GET['page'] :
     1);

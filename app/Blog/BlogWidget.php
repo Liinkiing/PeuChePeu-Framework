@@ -3,7 +3,6 @@
 namespace App\Blog;
 
 use App\Admin\AdminWidgetInterface;
-use App\Blog\Table\PostTable;
 use Core\View\ViewInterface;
 
 /**

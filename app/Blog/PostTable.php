@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Blog\Table;
+namespace App\Blog;
 
 use Core\Database\NoRecordException;
 use Core\Database\PaginatedQuery;
@@ -12,6 +12,7 @@ use Core\Database\Table;
 class PostTable extends Table
 {
     protected const TABLE = 'posts';
+    protected const ENTITY = PostEntity::class;
 
     public function findPaginated($perPage = 10, $currentPage = 1)
     {

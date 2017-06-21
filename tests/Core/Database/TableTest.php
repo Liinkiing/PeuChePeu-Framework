@@ -5,6 +5,13 @@ class FakeTableTest extends Table {
     protected const TABLE = "fake";
 }
 
+class FakeEntityTest { }
+
+class FakeTableEntity extends Table {
+    protected const TABLE = "fake";
+    protected const ENTITY = FakeEntityTest::class;
+}
+
 class TableTest extends \PHPUnit\Framework\TestCase {
 
     /**
@@ -54,8 +61,23 @@ class TableTest extends \PHPUnit\Framework\TestCase {
                 $this->equalTo('SELECT * FROM fake WHERE id = ?'),
                 $this->equalTo([2])
             )
-            ->willReturn([]);
+            ->willReturn(new stdClass());
 
+        $this->table->find(2);
+    }
+
+    public function testFindWithEntity () {
+        $this->database
+            ->expects($this->once())
+            ->method('fetch')
+            ->with(
+                $this->equalTo('SELECT * FROM fake WHERE id = ?'),
+                $this->equalTo([2]),
+                $this->equalTo(FakeEntityTest::class)
+            )
+            ->willReturn(new stdClass());
+
+        $this->table = new FakeTableEntity($this->database);
         $this->table->find(2);
     }
 

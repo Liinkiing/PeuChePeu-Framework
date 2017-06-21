@@ -2,7 +2,7 @@
 
 namespace App\Blog\Controller;
 
-use App\Blog\Table\PostTable;
+use App\Blog\PostTable;
 use Core\Controller;
 use Core\View\ViewInterface;
 use Slim\Http\Request;

@@ -1,36 +1,54 @@
 <?php
+use App\Blog\Validator\PostValidator;
+
 class PostValidatorTest extends \PHPUnit\Framework\TestCase {
 
     public function testWithoutData () {
-        $validator = new \App\Blog\Validator\PostValidator([]);
-        $this->assertFalse($validator->validates());
+        $this->assertCount(3, PostValidator::validates([]));
     }
 
     public function testWithSmallData () {
-        $validator = new \App\Blog\Validator\PostValidator([
+        $this->assertCount(1, PostValidator::validates([
             'name' => 'fake content',
             'content' => 'fake',
             'created_at' => date('Y-m-d H:i:s')
-        ]);
-        $this->assertFalse($validator->validates());
+        ]));
     }
 
     public function testWithInvalidDate () {
-        $validator = new \App\Blog\Validator\PostValidator([
+        $this->assertCount(1, PostValidator::validates([
             'name' => 'fake content',
             'content' => 'another fake content but long enought',
             'created_at' => 'Helllo'
-        ]);
-        $this->assertFalse($validator->validates());
+        ]));
     }
 
     public function testWithGoodData () {
-        $validator = new \App\Blog\Validator\PostValidator([
+        $this->assertCount(0, PostValidator::validates([
             'name' => 'fake content',
             'content' => 'another fake content but long enought',
             'created_at' => date('Y-m-d H:i:s')
-        ]);
-        $this->assertTrue($validator->validates(), print_r($validator->errors, true));
+        ]));
+    }
+
+    public function testWithoutFile () {
+        $this->assertCount(1, PostValidator::validates([
+            'name' => 'fake content',
+            'content' => 'another fake content but long enought',
+            'created_at' => date('Y-m-d H:i:s'),
+        ], true));
+    }
+
+    public function testWithFile () {
+        $file = $this->getMockBuilder(\Slim\Http\UploadedFile::class)
+            ->disableOriginalConstructor()
+            ->getMock();
+        $this->assertCount(0, PostValidator::validates([
+            'name' => 'fake content',
+            'content' => 'another fake content but long enought',
+            'created_at' => date('Y-m-d H:i:s'),
+            'image' => $file
+        ], true));
     }
 
 }

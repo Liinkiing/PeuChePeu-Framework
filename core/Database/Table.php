@@ -13,9 +13,14 @@ class Table
     protected $database;
 
     /**
-     * @var string Nom de la table en abse de données
+     * Nom de la table en abse de données.
      */
     protected const TABLE = null;
+
+    /**
+     * Permet de définir dans quel entité sauvegarder les résultats.
+     */
+    protected const ENTITY = null;
 
     public function __construct(Database $database)
     {
@@ -27,11 +32,11 @@ class Table
      *
      * @param int $id
      *
-     * @return array
+     * @return \stdClass
      */
-    public function find(int $id): array
+    public function find(int $id)
     {
-        return $this->database->fetch('SELECT * FROM ' . static::TABLE . ' WHERE id = ?', [$id]);
+        return $this->database->fetch('SELECT * FROM ' . static::TABLE . ' WHERE id = ?', [$id], static::ENTITY);
     }
 
     /**

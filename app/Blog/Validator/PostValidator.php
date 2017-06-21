@@ -10,34 +10,24 @@ use Cake\Validation\Validator;
 class PostValidator
 {
     /**
-     * @var array
-     */
-    private $params;
-
-    /**
-     * @var array
-     */
-    public $errors;
-
-    public function __construct(array $params)
-    {
-        $this->params = $params;
-    }
-
-    /**
      * Valide les données.
      *
-     * @return bool
+     * @param array $params
+     *
+     * @return array
      */
-    public function validates(): bool
+    public static function validates(array $params, bool $forceImage = false): array
     {
         $validator = new Validator();
         $validator->requirePresence(['name', 'content', 'created_at']);
         $validator->minLength('name', 4);
         $validator->minLength('content', 20);
         $validator->dateTime('created_at');
-        $this->errors = $validator->errors($this->params);
+        if ($forceImage) {
+            $validator->requirePresence('image');
+        }
+        $validator->uploadedFile('image', ['image/jpeg', 'image/png']);
 
-        return count($this->errors) === 0;
+        return $validator->errors($params);
     }
 }

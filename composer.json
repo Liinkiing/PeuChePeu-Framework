@@ -25,7 +25,8 @@
         "cakephp/validation": "^3.4",
         "slim/flash": "^0.2.0",
         "kanellov/slim-twig-flash": "^0.2.0",
-        "schnittstabil/psr7-csrf-middleware": "^1.1"
+        "schnittstabil/psr7-csrf-middleware": "^1.1",
+        "league/flysystem": "^1.0"
     },
     "require-dev": {
         "digitalnature/php-ref": "^1.2",

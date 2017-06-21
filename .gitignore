@@ -3,6 +3,7 @@ vendor/
 build/
 .php_cs.cache
 config.php
+public/uploads
 
 # Jetbrains file
 .idea

@@ -12,6 +12,7 @@ class BlogModule extends Module
 {
     public const MIGRATIONS = __DIR__ . '/db/migrations';
     public const SEEDS = __DIR__ . '/db/seeds';
+    public const DEFINITIONS = __DIR__ . '/config.php';
 
     public function __construct(App $app)
     {

@@ -4,11 +4,8 @@
 
     <h1>Créer un nouvel article</h1>
 
-    <form action="#" method="post">
-        {{ csrf_input() }}
-        {% include 'shared/input.twig' with {key: 'name', label: "Titre", value: post.name} %}
-        {% include 'shared/input.twig' with {type: 'textarea', key: 'content', label: "Contenu", value: post.content} %}
-        {% include 'shared/input.twig' with {key: 'created_at', label: "Date de création", value: post.created_at, input_class: 'datepicker'} %}
+    <form action="#" method="post" enctype="multipart/form-data">
+        {% include '@blog/admin/form.twig' %}
         <button class="btn btn-primary">Créer</button>
     </form>
 

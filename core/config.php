@@ -47,4 +47,7 @@ return [
         \DI\get('db_host')
     ),
     'db'                                  => \DI\get(\Core\Database\Database::class),
+
+    // Fichiers
+    'upload_path' => \DI\string('{basepath}/public/uploads'),
 ];
