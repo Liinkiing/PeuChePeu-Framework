@@ -24,9 +24,11 @@
         </whitelist>
     </filter>
 
+    <!--
+    Le logging est activé au cas par cas via makefile
     <logging>
         <log type="coverage-clover" target="tmp/clover.xml"/>
         <log type="coverage-html" target="tmp/html"/>
     </logging>
-
+    !-->
 </phpunit>

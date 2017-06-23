@@ -42,7 +42,7 @@ $text = new \Core\Twig\TextExtension();
                 <a class="nav-link" href="/blog">Blog <span class="sr-only">(current)</span></a>
             </li>
         </ul>
-        <?php if (!isset($_SESSION['auth.user'])): ?>
+        <?php if (!isset($_SESSION['auth.user'])) : ?>
             <ul class="navbar-nav">
                 <li class="nav-item active">
                     <a class="nav-link" href="/login">Se connecter</a>
@@ -55,9 +55,9 @@ $text = new \Core\Twig\TextExtension();
 
 <div class="container">
 
-    <?php foreach (chunk_iterable($posts, 4) as $chunk): ?>
+    <?php foreach (chunk_iterable($posts, 4) as $chunk) : ?>
         <div class="row">
-            <?php foreach ($chunk as $post): ?>
+            <?php foreach ($chunk as $post) : ?>
                 <div class="col-sm-3">
                     <div class="card">
                         <div class="card-header"><?= $post->name; ?></div>

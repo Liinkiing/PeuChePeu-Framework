@@ -32,7 +32,6 @@ class App extends \DI\Bridge\Slim\App
         }
 
         // Middlewares
-        $this->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware());
         $this->add($this->getContainer()->get('csrf'));
     }
 

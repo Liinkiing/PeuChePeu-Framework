@@ -1,4 +1,4 @@
-.PHONY: help install server migrate seed lint lint.fix server install test
+.PHONY: help install server migrate seed lint lint.fix server install test test.html
 
 ENV ?= dev
 COMPOSER_ARGS =
@@ -27,13 +27,18 @@ seed: install ## Lance le seeding de la base de données
 # Test & Linters
 #############
 lint: vendor ## Vérifie le code
+	./vendor/bin/phpcs && \
 	./vendor/bin/php-cs-fixer fix --diff --dry-run -v
 
 lint.fix: vendor ## Vérifie le code et le corrige tout seul
+	./vendor/bin/phpcbf && \
 	./vendor/bin/php-cs-fixer fix --diff -v
 
 test: vendor ## PHPUnit all the code !
-	./vendor/bin/phpunit --stderr
+	./vendor/bin/phpunit --stderr --coverage-clover=tmp/clover.xml
+
+test.html: vendor ## PHPUnit avec rapport HTML
+	./vendor/bin/phpunit --stderr --coverage-html=tmp/html
 
 tmp/clover.xml: test
 

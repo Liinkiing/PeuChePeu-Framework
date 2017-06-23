@@ -27,8 +27,10 @@ class BlogModule extends Module
         if ($container->has('admin.middleware')) {
             $app->group($container->get('admin.prefix'), function () {
                 $this->get('/blog', [AdminBlogController::class, 'index'])->setName('blog.admin.index');
-                $this->map(['GET', 'POST'], '/blog/{id:[0-9]+}', [AdminBlogController::class, 'edit'])->setName('blog.admin.edit');
-                $this->map(['GET', 'POST'], '/blog/new', [AdminBlogController::class, 'create'])->setName('blog.admin.create');
+                $this->get('/blog/new', [AdminBlogController::class, 'create'])->setName('blog.admin.create');
+                $this->get('/blog/{id:[0-9]+}', [AdminBlogController::class, 'edit'])->setName('blog.admin.edit');
+                $this->put('/blog/{id:[0-9]+}', [AdminBlogController::class, 'update']);
+                $this->post('/blog/new', [AdminBlogController::class, 'store']);
                 $this->delete('/blog/{id:[0-9]+}', [AdminBlogController::class, 'destroy'])->setName('blog.admin.destroy');
             })->add($container->get('admin.middleware'));
         }

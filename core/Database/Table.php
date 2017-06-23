@@ -40,6 +40,25 @@ class Table
     }
 
     /**
+     * écupère un enregistrement en se basant sur l'ID et renvoie une exception si l'entité n'existe pas.
+     *
+     * @param $id
+     *
+     * @throws NoRecordException
+     *
+     * @return \stdClass
+     */
+    public function findOrFail(int $id)
+    {
+        $record = $this->find($id);
+        if (!$record) {
+            throw new NoRecordException('Aucun enregistrement ' . static::TABLE . '::' . $id);
+        }
+
+        return $record;
+    }
+
+    /**
      * Supprime un enregistrement.
      *
      * @param int $id

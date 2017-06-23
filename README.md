@@ -58,7 +58,8 @@ c'est long et répétitif (au pire ils seront fournis avec les sources).
 - [x] Tests unitaires
 - [x] Authentification des utilisateur
 - [x] Back office pour la gestion des articles
-- [ ] Upload d'un fichier à la une
+- [x] Upload d'un fichier à la une
+- [ ] Gestion du slug (check unicité)
 - [ ] Ajout des catégories
 - [ ] Page contact (permet de voir le traitement des formulaire)
 

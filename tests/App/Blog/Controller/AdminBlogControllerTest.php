@@ -23,6 +23,8 @@ class AdminBlogControllerTest extends \PHPUnit\Framework\TestCase {
             ->setMethodsExcept([])
             ->getMock();
 
+        $this->table->method('findOrFail')->willReturn(new \App\Blog\PostEntity());
+
         $this->entity = new \App\Blog\PostEntity();
         $this->entity->id = 2;
         $this->table->method('find')->willReturn($this->entity);
@@ -30,31 +32,35 @@ class AdminBlogControllerTest extends \PHPUnit\Framework\TestCase {
         parent::__construct($name, $data, $dataName);
     }
 
-    public function makeRequest (array $params = [], array $files = []): \Psr\Http\Message\ServerRequestInterface {
-        $mock = $this->getMockBuilder(\Slim\Http\Request::class)
+    public function makeRequest (array $params = [], array $files = []) {
+        $request = $this->getMockBuilder(\Slim\Http\Request::class)
             ->disableOriginalConstructor()
             ->setMethodsExcept([])
             ->getMock();
-        $mock
+        $request
             ->expects($this->any())
             ->method('getParsedBody')
             ->willReturn($params);
-        $mock
+        $request
             ->expects($this->any())
             ->method('getUploadedFiles')
             ->willReturn($files);
-        $mock
+        $request
             ->expects($this->any())
             ->method('getMethod')
             ->willReturn('POST');
-        return $mock;
+
+        $blogRequest = new \App\Blog\Request\BlogRequest($request, $this->table);
+        return $blogRequest;
     }
 
     public function makeFile () {
-        return $this->getMockBuilder(\Slim\Http\UploadedFile::class)
+        $file = $this->getMockBuilder(\Slim\Http\UploadedFile::class)
             ->setConstructorArgs(['/tmp/demo.jpg', 'demo.jpg', 'image/jpeg', 2000])
-            ->setMethodsExcept([])
+            ->setMethods(['move'])
             ->getMock();
+
+        return $file;
     }
 
     public function testEditWithBadParams () {
@@ -62,7 +68,7 @@ class AdminBlogControllerTest extends \PHPUnit\Framework\TestCase {
             ->method('render')
             ->with('@blog/admin/edit');
 
-        $this->controller->edit(3, $this->table, $this->makeRequest(), $this->uploader);
+        $this->controller->update(3, $this->table, $this->makeRequest(), $this->uploader);
     }
 
     public function testEditWithGoodParams () {
@@ -85,10 +91,13 @@ class AdminBlogControllerTest extends \PHPUnit\Framework\TestCase {
         $params = [
             'name' => 'Post title',
             'content' => 'Some fake content for test here it is it is a demonstration',
-            'created_at' => date('Y-m-d H:i:s')
+            'created_at' => date('Y-m-d H:i:s'),
+            'slug' => 'azeeaz-azeaze'
         ];
 
-        $this->controller->edit(3, $this->table, $this->makeRequest($params, ['image' => $file]), $this->uploader);
+        var_dump('ok', date('Y-m-d H:i:s'));
+
+        $this->controller->update(3, $this->table, $this->makeRequest($params, ['image' => $file]), $this->uploader);
     }
 
 }

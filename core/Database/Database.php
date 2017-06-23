@@ -42,7 +42,8 @@ class Database
     public function getPDO(): \PDO
     {
         if (!$this->pdo) {
-            $this->pdo = new \PDO("mysql:host={$this->host};dbname={$this->database}",
+            $this->pdo = new \PDO(
+                "mysql:host={$this->host};dbname={$this->database}",
                 $this->username,
                 $this->password,
                 [
