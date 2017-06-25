@@ -1,25 +1,20 @@
 <?php
 require dirname(__DIR__) . '/vendor/autoload.php';
 
-// Config
-$config = [
-    'settings' => [
-        'debug'               => true,
-        'whoops.editor'       => 'sublime',
-        'displayErrorDetails' => true,
-    ]
-];
+// COnstantes
+define('WWW_ROOT', __DIR__);
+define('UPLOAD_PATH', __DIR__ . '/uploads');
 
 // On démarre slim
-$app = new \Core\App(dirname(__DIR__) . '/config.php');
-
-// Middlewares
-$app->add(new \Zeuxisoo\Whoops\Provider\Slim\WhoopsMiddleware());
-
-// Les modules
-$app->addModule(\App\Base\BaseModule::class);
-$app->addModule(\App\Blog\BlogModule::class);
-$app->addModule(\App\Auth\AuthModule::class);
+$app = new \Core\App(
+    dirname(__DIR__) . '/config.php',
+    [
+        \App\Base\BaseModule::class,
+        \App\Admin\AdminModule::class,
+        \App\Auth\AuthModule::class,
+        \App\Blog\BlogModule::class
+    ]
+);
 
 // On lance l'application
 if (php_sapi_name() !== "cli") {

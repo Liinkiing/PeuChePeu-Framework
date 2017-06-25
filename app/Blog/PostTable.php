@@ -1,41 +1,24 @@
 <?php
 
-namespace App\Blog\Table;
+namespace App\Blog;
 
-use Core\Database\Database;
 use Core\Database\NoRecordException;
 use Core\Database\PaginatedQuery;
+use Core\Database\Table;
 
 /**
  * Permet de récupérer les articles depuis la base de données.
  */
-class PostTable
+class PostTable extends Table
 {
-    /**
-     * @var Database
-     */
-    private $database;
+    protected const TABLE = 'posts';
+    protected const ENTITY = PostEntity::class;
 
-    public function __construct(Database $database)
-    {
-        $this->database = $database;
-    }
-
-    /**
-     * Récupère les derniers articles.
-     *
-     * @return array
-     */
-    public function getPosts(): array
-    {
-        return $this->database->fetchAll('SELECT * FROM posts');
-    }
-
-    public function getPaginatedPosts($perPage = 10, $currentPage = 1)
+    public function findPaginated($perPage = 10, $currentPage = 1)
     {
         $count = $this->database->fetchColumn('SELECT COUNT(id) FROM posts');
 
-        return (new PaginatedQuery($this->database, 'SELECT * FROM posts', $count))
+        return (new PaginatedQuery($this->database, 'SELECT * FROM posts ORDER BY created_at DESC', $count))
             ->getPaginator()
             ->setCurrentPage($currentPage)
             ->setMaxPerPage($perPage);

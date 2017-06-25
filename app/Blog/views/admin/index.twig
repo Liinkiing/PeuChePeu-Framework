@@ -1,0 +1,47 @@
+{% extends('@admin/layout.twig') %}
+
+{% block title %}
+    Blog{% if page > 1 %}, page {{ page }}{% endif %}
+{% endblock %}
+{% block content %}
+
+    <p class="text-right">
+        <a href="{{ path_for('blog.admin.create') }}" class="btn btn-primary">
+            Créer un article
+        </a>
+    </p>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Titre</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {%  for post in posts %}
+            <tr>
+                <td>{{ post.name }}</td>
+                <td>
+                    <a href="{{ path_for('blog.admin.edit', {id: post.id}) }}" class="btn btn-primary">Editer</a>
+                    <form
+                            style="display: inline;"
+                            method="post"
+                            action="{{ path_for('blog.admin.destroy', {id: post.id}) }}"
+                            onsubmit="return confirm('Voulez vous vraiment supprimer cet article ? ');"
+                    >
+                        {{ csrf_input() }}
+                        <input type="hidden" name="_METHOD" value="DELETE">
+                        <button class="btn btn-danger" type="submit">
+                            Supprimer
+                        </button>
+                    </form>
+                </td>
+            </tr
+            {% endfor %}>
+        </tbody>
+    </table>
+
+    {{ paginate(posts, 'blog.admin.index') }}
+
+{% endblock %}

@@ -19,5 +19,19 @@ interface SessionInterface
      */
     public function set(string $key, $value);
 
+    /**
+     * Permet de supprimer une clef en session.
+     *
+     * @param string $key
+     *
+     * @return mixed
+     */
+    public function delete(string $key);
+
+    /**
+     * Détruit complètement la session.
+     *
+     * @return mixed
+     */
     public function destroy();
 }

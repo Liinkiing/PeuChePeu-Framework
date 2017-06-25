@@ -42,7 +42,8 @@ class Database
     public function getPDO(): \PDO
     {
         if (!$this->pdo) {
-            $this->pdo = new \PDO("mysql:host={$this->host};dbname={$this->database}",
+            $this->pdo = new \PDO(
+                "mysql:host={$this->host};dbname={$this->database}",
                 $this->username,
                 $this->password,
                 [
@@ -66,7 +67,7 @@ class Database
      */
     public function fetch(string $query, array $params = [], string $entity = null)
     {
-        return $this->createQuery($query, $params, $entity)->fetch();
+        return $this->query($query, $params, $entity)->fetch();
     }
 
     /**
@@ -80,7 +81,7 @@ class Database
      */
     public function fetchAll(string $query, array $params = [], string $entity = null): array
     {
-        return $this->createQuery($query, $params, $entity)->fetchAll();
+        return $this->query($query, $params, $entity)->fetchAll();
     }
 
     /**
@@ -94,7 +95,7 @@ class Database
      */
     public function fetchColumn(string $query, array $params = [], string $entity = null): string
     {
-        return $this->createQuery($query, $params, $entity)->fetchColumn();
+        return $this->query($query, $params, $entity)->fetchColumn();
     }
 
     /**
@@ -106,7 +107,7 @@ class Database
      *
      * @return \PDOStatement
      */
-    private function createQuery(string $query, array $params = [], string $entity = null): \PDOStatement
+    public function query(string $query, array $params = [], string $entity = null): \PDOStatement
     {
         if (count($params) === 0) {
             $query = $this->getPDO()->query($query);
@@ -119,5 +120,15 @@ class Database
         }
 
         return $query;
+    }
+
+    /**
+     * Renvoie le dernier id inséré.
+     *
+     * @return int|null
+     */
+    public function lastInsertId(): ?int
+    {
+        return $this->getPDO()->lastInsertId();
     }
 }

@@ -15,19 +15,32 @@
     <a class="navbar-brand" href="#">Mon application</a>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav mr-auto">
-            {% if module_enabled('BlogModule') %}
+            {% if has_module('blog') %}
             <li class="nav-item active">
                 <a class="nav-link" href="{{ path_for('blog.index') }}">Blog <span class="sr-only">(current)</span></a>
             </li>
             {% endif %}
         </ul>
         <ul class="navbar-nav">
-            {% if module_enabled('AuthModule') %}
-            <li class="nav-item active">
+            {% if has_module('auth') %}
                 {% if current_user() %}
-                    <a class="nav-link" href="#">{{ current_user().username }}</a>
+                    {% if has_module('admin') and has_role('admin') %}
+                        <li class="nav-item">
+                            <a class="nav-link" href="{{ path_for('admin.index') }}">Administration</a>
+                        </li>
+                    {% endif %}
+                    <li class="nav-item">
+                        <form action="{{ path_for('auth.logout') }}" method="post">
+                            <input type="hidden" name="_METHOD" value="DELETE">
+                            {{ csrf_input() }}
+                            <button class="nav-link btn btn-danger" type="submit">Se
+                                déconnecter</button>
+                        </form>
+                    </li>
                 {% else %}
-                    <a class="nav-link" href="{{ path_for('auth.login') }}">Se connecter</a>
+                    <li class="nav-item active">
+                        <a class="nav-link" href="{{ path_for('auth.login') }}">Se connecter</a>
+                    </li>
                 {% endif %}
             </li>
             {% endif %}

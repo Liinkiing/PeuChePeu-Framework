@@ -5,10 +5,21 @@ require 'public/index.php';
 $pdo = $app->getContainer()->get('db')->getPDO();
 $pdo->setAttribute(PDO::ATTR_DEFAULT_FETCH_MODE, PDO::FETCH_ASSOC);
 
+$modules = $app->getModules();
+
+$migrations = [];
+$seeders = [];
+
+foreach ($modules as $module) {
+    $reflexion = new ReflectionClass($module);
+    $migrations[] = $reflexion->getConstant('MIGRATIONS');
+    $seeds[] = $reflexion->getConstant('SEEDS');
+}
+
 return [
     'paths'        => [
-        'migrations' => $app->getContainer()->get(\Core\ModulesContainer::class)->getMigrations(),
-        'seeds'      => $app->getContainer()->get(\Core\ModulesContainer::class)->getSeeders()
+        'migrations' => array_filter($migrations),
+        'seeds'      => array_filter($seeders)
     ],
     'environments' =>
         [

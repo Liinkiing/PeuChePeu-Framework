@@ -5,42 +5,63 @@ namespace Core;
 class App extends \DI\Bridge\Slim\App
 {
     /**
-     * @var ModulesContainer
-     */
-    private $modules;
-
-    /**
-     * Extra definitions for the contaienr Builder.
+     * Ajoute une définition au chargement.
      *
      * @var string|array
      */
     private $definitions;
 
-    public function __construct($definitions = [])
+    /**
+     * Liste tous les modules disponibles dans l'application.
+     *
+     * @var array
+     */
+    private $modules;
+
+    public function __construct($definitions = [], array $modules = [])
     {
         $this->definitions = $definitions;
+        $this->modules = $modules;
+
+        // On construit le conteneur
         parent::__construct();
-    }
 
-    protected function configureContainer(\DI\ContainerBuilder $builder)
-    {
-        $this->modules = new ModulesContainer($this);
+        // On charge les modules
+        foreach ($modules as $module) {
+            $this->getContainer()->get($module);
+        }
 
-        $builder->useAnnotations(true);
-        $builder->addDefinitions(__DIR__ . '/config.php');
-        $builder->addDefinitions([
-            ModulesContainer::class => $this->modules
-        ]);
-        $builder->addDefinitions($this->definitions);
+        // Middlewares
+        $this->add($this->getContainer()->get('csrf'));
     }
 
     /**
-     * Permet de rajouter un module dans l'application.
+     * Récupère la liste des modules disponibles.
      *
-     * @param string $module
+     * @return array
      */
-    public function addModule(string $module)
+    public function getModules(): array
     {
-        $this->modules->add($module);
+        return $this->modules;
+    }
+
+    /**
+     * Permet de configurer le conteneur d'injection de dépendances.
+     *
+     * @param \DI\ContainerBuilder $builder
+     */
+    protected function configureContainer(\DI\ContainerBuilder $builder): void
+    {
+        // PHP-DI
+        $builder->addDefinitions(__DIR__ . '/config.php');
+        $builder->addDefinitions($this->definitions);
+        $builder->addDefinitions([
+            get_class($this) => $this
+        ]);
+        foreach ($this->modules as $module) {
+            if ($module::DEFINITIONS) {
+                $builder->addDefinitions($module::DEFINITIONS);
+            }
+        }
     }
 }

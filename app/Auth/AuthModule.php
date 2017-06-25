@@ -4,29 +4,41 @@ namespace App\Auth;
 
 use App\Auth\Controller\SessionController;
 use Core\App;
+use Core\Module;
 use Core\View\TwigView;
 use Core\View\ViewInterface;
+use DI\Container;
 
-class AuthModule
+class AuthModule extends Module
 {
-    public $migrations = __DIR__ . '/db/migrations';
-    public $seeds = __DIR__ . '/db/seeds';
+    public const MIGRATIONS = __DIR__ . '/db/migrations';
+    public const SEEDS = __DIR__ . '/db/seeds';
+    public const DEFINITIONS = __DIR__ . '/config.php';
 
-    public function __construct(App $app)
+    /**
+     * @var Container
+     */
+    private $container;
+
+    public function __construct(Container $container)
     {
-        $view = $app->getContainer()->get(ViewInterface::class);
+        $container->call([$this, 'routes']);
+        $container->call([$this, 'view']);
+        $this->container = $container;
+    }
+
+    public function view(ViewInterface $view, Twig\AuthTwigExtension $extension)
+    {
         $view->addPath(__DIR__ . '/views', 'auth');
-
         if ($view instanceof TwigView) {
-            $view->getTwig()->addExtension($app->getContainer()->get(Twig\AuthTwigExtension::class));
+            $view->getTwig()->addExtension($extension);
         }
-
-        $this->routes($app);
     }
 
     public function routes(App $router)
     {
         $router->get('/login', [SessionController::class, 'create'])->setName('auth.login');
         $router->post('/login', [SessionController::class, 'store']);
+        $router->delete('/logout', [SessionController::class, 'destroy'])->setName('auth.logout');
     }
 }

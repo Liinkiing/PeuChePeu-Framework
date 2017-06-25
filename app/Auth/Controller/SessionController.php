@@ -2,35 +2,43 @@
 
 namespace App\Auth\Controller;
 
-use App\Auth\Authenticable;
+use App\Auth\AuthService;
 use Core\Controller;
-use Core\Exception\ValidationException;
 use Core\View\ViewInterface;
 use Slim\Http\Request;
 use Slim\Http\Response;
 
 class SessionController extends Controller
 {
-    use Authenticable;
-
     public function create(ViewInterface $view)
     {
-        $messages = $this->flash->getMessages();
+        $redirectMessages = $this->getFlash()->getMessage('redirect');
+        $redirect = count($redirectMessages) > 0 ? $redirectMessages[0] : null;
 
-        return $view->render('@auth/login');
+        return $view->render('@auth/login', compact('redirect'));
     }
 
-    public function store(Request $request, Response $response)
+    public function store(Request $request, Response $response, AuthService $auth)
     {
-        try {
-            $user = $this->getAuth()->login($request->getParams());
-            $this->flash->addMessage('success', 'Vous êtes maintenant connecté');
+        $username = $request->getParam('username');
+        $password = $request->getParam('password');
+        $redirect = $request->getParam('redirect');
+        $user = $auth->login($username, $password);
+        if ($user) {
+            $this->flash('success', 'Vous êtes maintenant connecté');
 
-            return $response->withAddedHeader('location', '/');
-        } catch (ValidationException $e) {
-            $this->flash->addMessage('error', 'Mot de passe ou identifiant incorrect');
-
-            return $this->render('@auth/login', ['errors' => $e->getErrors()]);
+            return $response->withAddedHeader('location', $redirect ?: '/');
         }
+        $this->flash('error', 'Mot de passe ou identifiant incorrect');
+
+        return $this->render('@auth/login', compact('redirect'));
+    }
+
+    public function destroy(Response $response, AuthService $auth)
+    {
+        $auth->logout();
+        $this->flash('success', 'Vous êtes maintenant déconnecté');
+
+        return $response->withAddedHeader('location', '/');
     }
 }

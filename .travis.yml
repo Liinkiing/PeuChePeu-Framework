@@ -8,7 +8,6 @@ cache:
 matrix:
   fast_finish: true
   include:
-    - php: 7.0
     - php: 7.1
 
 before_install:
@@ -16,5 +15,4 @@ before_install:
 
 script:
   - make lint
-  - make test
-  - ./vendor/bin/coveralls
+  - make tmp/coveralls.json

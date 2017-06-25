@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/3.0.5-1/flatpickr.min.css">
+    <style>
+        body {
+            padding-top: 5rem;
+        }
+    </style>
+</head>
+<body>
+
+<nav class="navbar  navbar-toggleable-md fixed-top navbar-inverse bg-inverse">
+    <a class="navbar-brand" href="{{ path_for('admin.index') }}">Administration</a>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav mr-auto">
+            {% if has_module('blog') %}
+                <li class="nav-item active">
+                    <a class="nav-link" href="{{ path_for('blog.admin.index') }}">
+                        Blog
+                    </a>
+                </li>
+            {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+            {% if has_module('blog') %}
+                    <li class="nav-item">
+                        <form action="{{ path_for('auth.logout') }}" method="post">
+                            <input type="hidden" name="_METHOD" value="DELETE">
+                            {{ csrf_input() }}
+                            <button class="nav-link btn btn-danger" type="submit">
+                                Se déconnecter
+                            </button>
+                        </form>
+                    </li>
+                </li>
+            {% endif %}
+        </ul>
+    </div>
+</nav>
+
+<div class="container">
+
+    {% if flash('error') %}
+        <div class="alert alert-danger">
+            {% for msg in flash('error') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% if flash('success') %}
+        <div class="alert alert-success">
+            {% for msg in flash('success') %}
+                {{ msg }}
+            {% endfor %}
+        </div>
+    {% endif %}
+
+    {% block content %}{% endblock %}
+
+</div><!-- /.container -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
+        integrity="sha384-BLiI7JTZm+JWlgKa0M0kGRpJbF2J8q+qreVrKBC47e3K6BW78kGLrCkeRX6I9RoK"
+        crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/flatpickr/3.0.5-1/flatpickr.min.js"></script>
+<script>
+  flatpickr(".datepicker", {
+    enableTime: true,
+    altInput: true,
+    altFormat: 'j F Y'
+  })
+</script>
+</body>
+</html>

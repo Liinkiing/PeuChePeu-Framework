@@ -1,0 +1,11 @@
+{{ csrf_input() }}
+{% include 'shared/input.twig' with {key: 'name', label: "Titre", value: post.name} %}
+{% include 'shared/input.twig' with {key: 'slug', label: "Slug", value: post.slug} %}
+{% include 'shared/input.twig' with {type: 'textarea', key: 'content', label: "Contenu", value: post.content} %}
+{% include 'shared/input.twig' with {key: 'created_at', label: "Date de création", value: post.created_at, input_class: 'datepicker'} %}
+{% if post.image %}
+    <p>
+        <img src="/uploads/posts/{{ post.image }}" alt="" width="300">
+    </p>
+{% endif %}
+{% include 'shared/input.twig' with {key: 'image', label: 'Image à la une', type: 'file'} %}

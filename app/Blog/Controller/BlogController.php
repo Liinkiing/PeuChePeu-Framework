@@ -2,7 +2,7 @@
 
 namespace App\Blog\Controller;
 
-use App\Blog\Table\PostTable;
+use App\Blog\PostTable;
 use Core\Controller;
 use Core\View\ViewInterface;
 use Slim\Http\Request;
@@ -12,7 +12,7 @@ class BlogController extends Controller
     public function index(Request $request, ViewInterface $view, PostTable $postTable)
     {
         $page = $request->getParam('page', 1);
-        $posts = $postTable->getPaginatedPosts(12, $page);
+        $posts = $postTable->findPaginated(12, $page);
 
         return $view->render('@blog/index', compact('posts', 'page'));
     }

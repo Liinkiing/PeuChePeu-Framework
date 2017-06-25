@@ -14,7 +14,7 @@ interface ViewInterface
      * @param string $namespace
      * @param string $path
      */
-    public function addPath(string $path, $namespace);
+    public function addPath(string $path, string $namespace);
 
     /**
      * Rend une vue.

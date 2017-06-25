@@ -2,9 +2,10 @@
 
 namespace Core\View;
 
-use Core\Twig\Extensions\ModuleExtension;
-use Core\Twig\Extensions\PagerfantaExtension;
-use Core\Twig\Extensions\TextExtension;
+use Core\Twig\CsrfExtension;
+use Core\Twig\ModuleExtension;
+use Core\Twig\PagerfantaExtension;
+use Core\Twig\TextExtension;
 use Knlv\Slim\Views\TwigMessages;
 use Slim\Flash\Messages;
 use Slim\Views\TwigExtension;
@@ -29,16 +30,18 @@ class TwigView implements ViewInterface
         TwigExtension $slimExtension,
         ModuleExtension $moduleExtension,
         PagerfantaExtension $pagerfantaExtension,
+        CsrfExtension $csrfExtension,
         Messages $flashMessages
     ) {
         $this->loader = new \Twig_Loader_Filesystem();
         $this->twig = new \Twig_Environment($this->loader, [
-            'cache' => false, // $basepath . '/tmp/cache'
+            'cache' => false
         ]);
         // Ajout des extensions
         $this->twig->addExtension($moduleExtension);
         $this->twig->addExtension($slimExtension);
         $this->twig->addExtension($pagerfantaExtension);
+        $this->twig->addExtension($csrfExtension);
         $this->twig->addExtension(new TwigMessages($flashMessages));
         $this->twig->addExtension(new TextExtension());
     }
@@ -49,7 +52,7 @@ class TwigView implements ViewInterface
      * @param string $namespace
      * @param string $path
      */
-    public function addPath(string $path, $namespace = \Twig_Loader_Filesystem::MAIN_NAMESPACE)
+    public function addPath(string $path, string $namespace = \Twig_Loader_Filesystem::MAIN_NAMESPACE)
     {
         $this->loader->addPath($path, $namespace);
     }
